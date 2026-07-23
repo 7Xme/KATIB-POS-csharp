@@ -30,4 +30,5 @@ public class ProductService : IProductService
         if (categoryId.HasValue) query = query.Where(p => p.CategoryId == categoryId.Value);
         return await query.CountAsync();
     }
+    public async Task<List<Category>> GetCategoriesAsync() => await _context.Categories.OrderBy(c => c.Name).ToListAsync();
 }

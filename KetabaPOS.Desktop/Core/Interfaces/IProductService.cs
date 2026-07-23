@@ -9,4 +9,5 @@ public interface IProductService
     Task UpdateAsync(Product product);
     Task DeleteAsync(int id);
     Task<int> GetTotalCountAsync(string? search = null, int? categoryId = null);
+    Task<List<Category>> GetCategoriesAsync();
 }

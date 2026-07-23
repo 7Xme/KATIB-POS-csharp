@@ -11,6 +11,7 @@
         FontSize="13">
     <Window.Resources>
         <converters:ImagePathConverter x:Key="ImagePathConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <Grid Margin="24">
@@ -145,15 +146,120 @@
 
         <DataTemplate DataType="{x:Type vm:ProductsViewModel}">
             <Grid Margin="24">
-                <TextBlock Text="Products" Style="{StaticResource PageHeaderStyle}" />
-                <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,60,0,0">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
-                        <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="150" />
-                        <DataGridTextColumn Header="Price" Binding="{Binding RetailPrice, StringFormat={}{0:N2}}" Width="100" />
-                        <DataGridTextColumn Header="Stock" Binding="{Binding StockQuantity}" Width="80" />
-                    </DataGrid.Columns>
-                </DataGrid>
+                <!-- List View -->
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Text="Products" Style="{StaticResource PageHeaderStyle}" Grid.Row="0" />
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
+                        <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="180" Margin="12,0,0,0" />
+                        <Button Content="Search" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="+ Add Product" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                    </StackPanel>
+
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTemplateColumn Header="Image" Width="60">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" Width="40" Height="40" Stretch="Uniform" />
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="120" />
+                            <DataGridTextColumn Header="Price" Binding="{Binding RetailPrice, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="Cost" Binding="{Binding CostPrice, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="Stock" Binding="{Binding StockQuantity}" Width="70" />
+                            <DataGridTextColumn Header="Min" Binding="{Binding MinStockLevel}" Width="60" />
+                            <DataGridTextColumn Header="Unit" Binding="{Binding Unit}" Width="60" />
+                            <DataGridTemplateColumn Header="Actions" Width="160">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Edit" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="Delete" Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Center">
+                        <Button Content="Previous" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <TextBlock Text="{Binding CurrentPage, StringFormat=Page {0}}" VerticalAlignment="Center" Margin="12,0" />
+                        <Button Content="Next" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- Form View -->
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel MaxWidth="600">
+                            <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
+
+                            <TextBlock Text="Name" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormName}" />
+
+                            <TextBlock Text="Name (Arabic)" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormNameAr}" />
+
+                            <TextBlock Text="Barcode" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormBarcode}" />
+
+                            <TextBlock Text="SKU" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormSku}" />
+
+                            <TextBlock Text="Category" Margin="0,8,0,2" Foreground="#475569"/>
+                            <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding FormCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" />
+
+                            <TextBlock Text="Cost Price" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormCostPrice}" />
+
+                            <TextBlock Text="Retail Price" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormRetailPrice}" />
+
+                            <TextBlock Text="Wholesale Price" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormWholesalePrice}" />
+
+                            <TextBlock Text="Stock Quantity" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormStockQuantity}" />
+
+                            <TextBlock Text="Min Stock Level" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormMinStockLevel}" />
+
+                            <TextBlock Text="Unit (e.g. pcs, kg, box)" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormUnit}" />
+
+                            <TextBlock Text="Description" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormDescription}" AcceptsReturn="True" Height="80" TextWrapping="Wrap" />
+
+                            <TextBlock Text="Product Image" Margin="0,12,0,2" Foreground="#475569"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                                <Border Width="100" Height="100" Background="#F1F5F9" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" HorizontalAlignment="Left">
+                                    <Image Source="{Binding FormImagePreviewPath, Converter={StaticResource ImagePathConverter}}" Width="90" Height="90" Stretch="Uniform" />
+                                </Border>
+                                <StackPanel VerticalAlignment="Center" Margin="16,0,0,0">
+                                    <Button Content="Select Image" Command="{Binding SelectImageCommand}" Style="{StaticResource ActionButtonStyle}" Background="#3B82F6" Foreground="White"/>
+                                    <TextBlock Text="{Binding FormImagePath}" Margin="0,4,0,0" Foreground="#64748B" TextWrapping="Wrap" MaxWidth="300" FontSize="11" />
+                                </StackPanel>
+                            </StackPanel>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,24">
+                                <Button Content="Save" Command="{Binding SaveProductCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="Cancel" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
             </Grid>
         </DataTemplate>
 

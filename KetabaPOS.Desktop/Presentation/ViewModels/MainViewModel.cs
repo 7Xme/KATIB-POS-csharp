@@ -77,7 +77,7 @@ public partial class MainViewModel : ObservableObject
 
             if (vm is DashboardViewModel dvm) dvm.LoadDashboardCommand.Execute(null);
             if (vm is PosViewModel pvm) pvm.LoadProductsCommand.Execute(null);
-            if (vm is ProductsViewModel prvm) prvm.LoadProductsCommand.Execute(null);
+            if (vm is ProductsViewModel prvm) { prvm.LoadCategoriesCommand.Execute(null); prvm.LoadProductsCommand.Execute(null); }
             if (vm is CustomersViewModel cvm) cvm.LoadCustomersCommand.Execute(null);
             if (vm is SuppliersViewModel svm) svm.LoadSuppliersCommand.Execute(null);
             if (vm is SalesViewModel savm) savm.LoadSalesCommand.Execute(null);
