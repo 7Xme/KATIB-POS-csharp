@@ -4,11 +4,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:KetabaPOS.Desktop.Presentation.ViewModels"
+        xmlns:converters="clr-namespace:KetabaPOS.Desktop.Presentation.Converters"
         mc:Ignorable="d"
         Title="Ketaba POS - Point of Sale System" Height="800" Width="1200"
         WindowState="Maximized"
         FontSize="13">
     <Window.Resources>
+        <converters:ImagePathConverter x:Key="ImagePathConverter" />
+
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <Grid Margin="24">
                 <Grid.RowDefinitions>
@@ -82,12 +85,32 @@
                             </ItemsControl.ItemsPanel>
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Style="{StaticResource CardStyle}" Margin="8" Width="180" Height="120">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding Name}" FontWeight="Medium" />
-                                            <TextBlock Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="#2563EB" FontSize="18" FontWeight="Bold" />
-                                            <Button Content="Add" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="32" Margin="0,8,0,0"/>
-                                        </StackPanel>
+                                    <Border Style="{StaticResource CardStyle}" Margin="6" Width="170">
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="80"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                                <RowDefinition Height="Auto"/>
+                                            </Grid.RowDefinitions>
+                                            <Border Grid.Row="0" Background="#F1F5F9" CornerRadius="8">
+                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" Width="80" Height="80" Stretch="Uniform">
+                                                    <Image.Style>
+                                                        <Style TargetType="Image">
+                                                            <Setter Property="Source" Value="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" />
+                                                            <Style.Triggers>
+                                                                <Trigger Property="Source" Value="{x:Null}">
+                                                                    <Setter Property="Source" Value="{x:Null}" />
+                                                                </Trigger>
+                                                            </Style.Triggers>
+                                                        </Style>
+                                                    </Image.Style>
+                                                </Image>
+                                            </Border>
+                                            <TextBlock Grid.Row="1" Text="{Binding Name}" FontWeight="Medium" FontSize="12" Margin="4,4,4,0" TextWrapping="Wrap" MaxHeight="32" />
+                                            <TextBlock Grid.Row="2" Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="#2563EB" FontSize="16" FontWeight="Bold" Margin="4,2,4,0" />
+                                            <Button Grid.Row="3" Content="Add" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="28" Margin="4,6,4,6" FontSize="12"/>
+                                        </Grid>
                                     </Border>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -124,6 +147,7 @@
                         <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" Margin="0,16,0,0" />
                         <TextBlock Text="{Binding ChangeAmount, StringFormat=Change: {0:N2}}" />
                         <Button Content="Complete Sale" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
+                        <Button Content="Print Receipt" Command="{Binding PrintReceiptCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,8,0,0" Height="36" Background="#10B981"/>
                         <Button Content="Clear Cart" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
                     </StackPanel>
                 </Border>
