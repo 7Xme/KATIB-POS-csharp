@@ -6,7 +6,6 @@ public static class DbSeeder
 {
     public static async Task SeedAsync(AppDbContext context)
     {
-        await context.Database.MigrateAsync();
         if (await context.Users.AnyAsync()) return;
         var admin = new User { Username = "admin", PasswordHash = BCrypt.Net.BCrypt.HashPassword("admin123"), DisplayName = "Administrator", Role = UserRole.Admin, IsActive = true, CreatedAt = DateTime.UtcNow };
         context.Users.Add(admin);

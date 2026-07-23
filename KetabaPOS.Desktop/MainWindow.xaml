@@ -3,18 +3,11 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:vm="clr-namespace:KetabaPOS.Desktop.Presentation.ViewModels"
         mc:Ignorable="d"
         Title="Ketaba POS - Point of Sale System" Height="800" Width="1200"
         WindowState="Maximized"
-        TextElement.Foreground="{DynamicResource MaterialDesignBodyTextBrush}"
-        TextElement.FontWeight="Regular"
-        TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal"
-        TextOptions.TextRenderingMode="Auto"
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontSize="13">
     <Window.Resources>
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <Grid Margin="24">
@@ -78,7 +71,7 @@
                     <TextBlock Text="Point of Sale" Style="{StaticResource PageHeaderStyle}" />
                     <DockPanel Margin="0,0,0,16">
                         <Button DockPanel.Dock="Right" Content="Search" Command="{Binding SearchProductsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
-                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Search by name or barcode..." />
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
                     </DockPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ItemsControl ItemsSource="{Binding Products}">
@@ -92,7 +85,7 @@
                                     <Border Style="{StaticResource CardStyle}" Margin="8" Width="180" Height="120">
                                         <StackPanel>
                                             <TextBlock Text="{Binding Name}" FontWeight="Medium" />
-                                            <TextBlock Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="{StaticResource PrimaryHueMidBrush}" FontSize="18" FontWeight="Bold" />
+                                            <TextBlock Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="#2563EB" FontSize="18" FontWeight="Bold" />
                                             <Button Content="Add" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="32" Margin="0,8,0,0"/>
                                         </StackPanel>
                                     </Border>
@@ -107,7 +100,7 @@
                         <ItemsControl ItemsSource="{Binding CartItems}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <Border Margin="0,4" Padding="8" BorderBrush="{StaticResource MaterialDesignDivider}" BorderThickness="0,0,0,1">
+                                    <Border Margin="0,4" Padding="8" BorderThickness="0,0,0,1" BorderBrush="#E2E8F0">
                                         <Grid>
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="*"/>
@@ -115,9 +108,9 @@
                                             </Grid.ColumnDefinitions>
                                             <StackPanel>
                                                 <TextBlock Text="{Binding ProductName}" FontWeight="Medium" />
-                                                <TextBlock Text="{Binding Total, StringFormat={}{0:N2}}" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                                <TextBlock Text="{Binding Total, StringFormat={}{0:N2}}" Foreground="#2563EB" />
                                             </StackPanel>
-                                            <Button Grid.Column="1" Content="X" Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource DangerColor}"/>
+                                            <Button Grid.Column="1" Content="X" Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Foreground="#EF4444" Background="Transparent" BorderThickness="0" Cursor="Hand"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -127,8 +120,8 @@
                         <TextBlock Text="{Binding Subtotal, StringFormat=Subtotal: {0:N2}}" />
                         <TextBlock Text="{Binding TaxAmount, StringFormat=Tax (15%): {0:N2}}" />
                         <TextBlock Text="{Binding DiscountAmount, StringFormat=Discount: {0:N2}}" />
-                        <TextBlock Text="{Binding TotalAmount, StringFormat=Total: {0:N2}}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryHueMidBrush}" />
-                        <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Amount Paid" Margin="0,16,0,0" />
+                        <TextBlock Text="{Binding TotalAmount, StringFormat=Total: {0:N2}}" FontSize="24" FontWeight="Bold" Foreground="#2563EB" />
+                        <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" Margin="0,16,0,0" />
                         <TextBlock Text="{Binding ChangeAmount, StringFormat=Change: {0:N2}}" />
                         <Button Content="Complete Sale" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
                         <Button Content="Clear Cart" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
@@ -208,40 +201,39 @@
             <Grid Margin="24">
                 <TextBlock Text="Settings" Style="{StaticResource PageHeaderStyle}" />
                 <StackPanel Grid.Row="1" MaxWidth="500">
-                    <TextBox Text="{Binding CompanyName}" materialDesign:HintAssist.Hint="Company Name" Margin="0,8" />
-                    <TextBox Text="{Binding CompanyNameAr}" materialDesign:HintAssist.Hint="Company Name (Arabic)" Margin="0,8" />
-                    <TextBox Text="{Binding TaxRate}" materialDesign:HintAssist.Hint="Tax Rate (%)" Margin="0,8" />
-                    <TextBox Text="{Binding Currency}" materialDesign:HintAssist.Hint="Currency" Margin="0,8" />
+                    <TextBox Text="{Binding CompanyName}" Margin="0,8" />
+                    <TextBox Text="{Binding CompanyNameAr}" Margin="0,8" />
+                    <TextBox Text="{Binding TaxRate}" Margin="0,8" />
+                    <TextBox Text="{Binding Currency}" Margin="0,8" />
                     <Button Content="Save Settings" Command="{Binding SaveSettingsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16" />
                     <Button Content="Backup Database" Command="{Binding BackupDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,8" />
                     <Button Content="Restore Database" Command="{Binding RestoreDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,8" />
-                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource SuccessColor}" Margin="0,8" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#10B981" Margin="0,8" />
                 </StackPanel>
             </Grid>
         </DataTemplate>
     </Window.Resources>
 
     <DockPanel>
-        <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryMid" Padding="16,12">
+        <Border DockPanel.Dock="Top" Background="#2563EB" Padding="16,12">
             <DockPanel>
-                <TextBlock Text="Ketaba POS" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" />
+                <TextBlock Text="Ketaba POS" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Dashboard" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
-                    <Button Content="POS" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
-                    <Button Content="Products" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Products" />
-                    <Button Content="Customers" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
-                    <Button Content="Suppliers" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
-                    <Button Content="Sales" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
-                    <Button Content="Loans" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
-                    <Button Content="Settings" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
-                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="8,0" />
-                    <Button Content="Logout" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding LogoutCommand}" />
-                    <ToggleButton Margin="8,0" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IsDarkTheme}" ToolTip="Toggle Theme" />
+                    <Button Content="Dashboard" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                    <Button Content="POS" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
+                    <Button Content="Products" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Products" />
+                    <Button Content="Customers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
+                    <Button Content="Suppliers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
+                    <Button Content="Sales" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
+                    <Button Content="Loans" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
+                    <Button Content="Settings" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
+                    <Separator Margin="8,0" Background="White" Opacity="0.5" Width="1" Height="20" />
+                    <Button Content="Logout" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />
                 </StackPanel>
             </DockPanel>
-        </materialDesign:ColorZone>
+        </Border>
 
-        <Grid>
+        <Grid Background="#F1F5F9">
             <ContentControl Content="{Binding CurrentViewModel}" />
         </Grid>
     </DockPanel>

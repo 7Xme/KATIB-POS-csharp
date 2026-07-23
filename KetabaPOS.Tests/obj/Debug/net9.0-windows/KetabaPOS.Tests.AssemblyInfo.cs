@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KetabaPOS.Tests")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a31b01af919b8e5c3c9ae88b24d92a947db1c107")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+980e197daf9029e9d1832fedbcd67dcb2ee3289b")]
 [assembly: System.Reflection.AssemblyProductAttribute("KetabaPOS.Tests")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KetabaPOS.Tests")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

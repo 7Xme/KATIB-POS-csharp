@@ -166,3 +166,4 @@ D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Tests\obj\D
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Tests\obj\Debug\net9.0-windows\KetabaPOS.Tests.pdb
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Tests\obj\Debug\net9.0-windows\KetabaPOS.Tests.genruntimeconfig.cache
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Tests\obj\Debug\net9.0-windows\ref\KetabaPOS.Tests.dll
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Tests\bin\Debug\net9.0-windows\appsettings.json

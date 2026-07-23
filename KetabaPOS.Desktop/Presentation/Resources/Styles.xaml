@@ -7,37 +7,77 @@
     <Color x:Key="WarningColor">#F59E0B</Color>
     <Color x:Key="DangerColor">#EF4444</Color>
 
+    <SolidColorBrush x:Key="PrimaryBrush" Color="#2563EB" />
+    <SolidColorBrush x:Key="PrimaryDarkBrush" Color="#1D4ED8" />
+    <SolidColorBrush x:Key="SuccessBrush" Color="#10B981" />
+    <SolidColorBrush x:Key="DangerBrush" Color="#EF4444" />
+
     <Style x:Key="PageHeaderStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="28" />
         <Setter Property="FontWeight" Value="SemiBold" />
         <Setter Property="Margin" Value="0,0,0,24" />
+        <Setter Property="Foreground" Value="#1E293B" />
     </Style>
 
     <Style x:Key="SectionHeaderStyle" TargetType="TextBlock">
         <Setter Property="FontSize" Value="18" />
         <Setter Property="FontWeight" Value="Medium" />
         <Setter Property="Margin" Value="0,16,0,8" />
+        <Setter Property="Foreground" Value="#475569" />
+    </Style>
+
+    <Style x:Key="KpiCardStyle" TargetType="Border">
+        <Setter Property="Background" Value="White" />
+        <Setter Property="CornerRadius" Value="12" />
+        <Setter Property="Padding" Value="20" />
+        <Setter Property="BorderBrush" Value="#E2E8F0" />
+        <Setter Property="BorderThickness" Value="1" />
+    </Style>
+
+    <Style x:Key="KpiValueStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="32" />
+        <Setter Property="FontWeight" Value="Bold" />
+        <Setter Property="Foreground" Value="#2563EB" />
+        <Setter Property="Margin" Value="0,8,0,0" />
+    </Style>
+
+    <Style x:Key="KpiLabelStyle" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="14" />
+        <Setter Property="Foreground" Value="#64748B" />
     </Style>
 
     <Style x:Key="CardStyle" TargetType="Border">
-        <Setter Property="Background" Value="{StaticResource MaterialDesignCardBackground}" />
+        <Setter Property="Background" Value="White" />
         <Setter Property="CornerRadius" Value="12" />
         <Setter Property="Padding" Value="20" />
-        <Setter Property="Effect">
-            <Setter.Value>
-                <DropShadowEffect Opacity="0.05" BlurRadius="8" ShadowDepth="2" />
-            </Setter.Value>
-        </Setter>
+        <Setter Property="BorderBrush" Value="#E2E8F0" />
+        <Setter Property="BorderThickness" Value="1" />
     </Style>
 
     <Style x:Key="ActionButtonStyle" TargetType="Button">
         <Setter Property="Height" Value="40" />
         <Setter Property="Padding" Value="16,0" />
         <Setter Property="FontWeight" Value="Medium" />
+        <Setter Property="Background" Value="#E2E8F0" />
+        <Setter Property="Foreground" Value="#1E293B" />
+        <Setter Property="BorderThickness" Value="0" />
     </Style>
 
     <Style x:Key="PrimaryButtonStyle" TargetType="Button" BasedOn="{StaticResource ActionButtonStyle}">
         <Setter Property="Background" Value="#2563EB" />
         <Setter Property="Foreground" Value="White" />
+    </Style>
+
+    <Style x:Key="MaterialDesignFlatButton" TargetType="Button">
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Foreground" Value="#1E293B" />
+        <Setter Property="BorderThickness" Value="0" />
+        <Setter Property="Padding" Value="8,4" />
+        <Setter Property="Cursor" Value="Hand" />
+    </Style>
+
+    <Style x:Key="MaterialDesignSwitchToggleButton" TargetType="ToggleButton">
+        <Setter Property="Background" Value="#CBD5E1" />
+        <Setter Property="Foreground" Value="#475569" />
     </Style>
 </ResourceDictionary>

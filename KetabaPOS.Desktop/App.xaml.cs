@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
 using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Infrastructure.Data;
 using KetabaPOS.Desktop.Infrastructure.Services;
@@ -13,17 +14,13 @@ public partial class App : Application
 {
     private ServiceProvider? _serviceProvider;
 
-    public App()
-    {
-    }
-
     protected override void OnStartup(StartupEventArgs e)
     {
         try
         {
-            var dbFolder = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KetabaPOS");
-            System.IO.Directory.CreateDirectory(dbFolder);
-            var dbPath = System.IO.Path.Combine(dbFolder, "ketaba.db");
+            var dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KetabaPOS");
+            Directory.CreateDirectory(dbFolder);
+            var dbPath = Path.Combine(dbFolder, "ketaba.db");
             var connectionString = new SqliteConnectionStringBuilder { DataSource = dbPath }.ToString();
 
             var services = new ServiceCollection();
@@ -69,7 +66,7 @@ public partial class App : Application
         }
         catch (System.Exception ex)
         {
-            MessageBox.Show($"Application failed to start:\n{ex.GetType().Name}: {ex.Message}\n\nStack Trace:\n{ex.StackTrace}",
+            MessageBox.Show($"Application failed to start:\n{ex.GetType().Name}: {ex.Message}",
                 "Startup Error", MessageBoxButton.OK, MessageBoxImage.Error);
             Shutdown();
         }
