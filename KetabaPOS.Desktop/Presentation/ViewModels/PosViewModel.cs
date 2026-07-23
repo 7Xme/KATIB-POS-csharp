@@ -27,6 +27,7 @@ public partial class PosViewModel : ObservableObject
 {
     private readonly IProductService _productService;
     private readonly ISaleService _saleService;
+    private readonly IAuthService _authService;
     private int _lastSaleId;
 
     [ObservableProperty] private string _searchText = string.Empty;
@@ -45,10 +46,11 @@ public partial class PosViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Customer> _customers = new();
     [ObservableProperty] private bool _showReceiptButton;
 
-    public PosViewModel(IProductService productService, ISaleService saleService)
+    public PosViewModel(IProductService productService, ISaleService saleService, IAuthService authService)
     {
         _productService = productService;
         _saleService = saleService;
+        _authService = authService;
     }
 
     [RelayCommand]
@@ -78,8 +80,10 @@ public partial class PosViewModel : ObservableObject
     private async Task CompleteSaleAsync()
     {
         if (CartItems.Count == 0) return;
+        var currentUser = await _authService.GetCurrentUserAsync();
         var sale = new Sale
         {
+            UserId = currentUser?.Id ?? 1,
             CustomerId = SelectedCustomerId,
             PaymentMethod = SelectedPaymentMethod,
             Subtotal = Subtotal,
