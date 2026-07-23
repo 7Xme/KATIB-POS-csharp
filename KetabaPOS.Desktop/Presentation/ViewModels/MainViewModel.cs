@@ -81,7 +81,7 @@ public partial class MainViewModel : ObservableObject
             if (vm is CustomersViewModel cvm) cvm.LoadCustomersCommand.Execute(null);
             if (vm is SuppliersViewModel svm) svm.LoadSuppliersCommand.Execute(null);
             if (vm is SalesViewModel savm) savm.LoadSalesCommand.Execute(null);
-            if (vm is LoansViewModel lvm) lvm.LoadLoansCommand.Execute(null);
+            if (vm is LoansViewModel lvm) { lvm.LoadCustomersCommand.Execute(null); lvm.LoadSuppliersCommand.Execute(null); lvm.LoadLoansCommand.Execute(null); }
             if (vm is SettingsViewModel sevm) sevm.LoadSettingsCommand.Execute(null);
         }
     }
