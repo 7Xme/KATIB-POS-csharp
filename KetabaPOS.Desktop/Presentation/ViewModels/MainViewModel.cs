@@ -1,6 +1,5 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Core.Models;
 using Microsoft.Extensions.DependencyInjection;
 using System.Windows;
@@ -37,6 +36,10 @@ public partial class MainViewModel : ObservableObject
     public MainViewModel(IServiceProvider serviceProvider)
     {
         _serviceProvider = serviceProvider;
+    }
+
+    public void Initialize()
+    {
         NavigateTo("Dashboard");
     }
 
@@ -91,16 +94,10 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void ToggleTheme()
-    {
-        IsDarkTheme = !IsDarkTheme;
-    }
+    private void ToggleTheme() => IsDarkTheme = !IsDarkTheme;
 
     [RelayCommand]
-    private void ToggleRtl()
-    {
-        IsRtl = !IsRtl;
-    }
+    private void ToggleRtl() => IsRtl = !IsRtl;
 
     [RelayCommand]
     private void ToggleSideMenu()
@@ -111,8 +108,5 @@ public partial class MainViewModel : ObservableObject
     }
 
     [RelayCommand]
-    private void Navigate(string viewName)
-    {
-        NavigateTo(viewName);
-    }
+    private void Navigate(string viewName) => NavigateTo(viewName);
 }

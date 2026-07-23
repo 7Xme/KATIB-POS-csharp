@@ -1,14 +1,22 @@
+using System.Data.Common;
 using System.IO;
 using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Core.Models;
 using KetabaPOS.Desktop.Infrastructure.Data;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 namespace KetabaPOS.Desktop.Infrastructure.Services;
 public class SettingsService : ISettingsService
 {
     private readonly AppDbContext _context;
     private readonly string _dbPath;
-    public SettingsService(AppDbContext context) { _context = context; _dbPath = context.Database.GetConnectionString() ?? ""; }
+    public SettingsService(AppDbContext context)
+    {
+        _context = context;
+        var connStr = context.Database.GetConnectionString() ?? "";
+        var builder = new SqliteConnectionStringBuilder(connStr);
+        _dbPath = builder.DataSource;
+    }
     public async Task<string?> GetSettingAsync(string key) { var s = await _context.Settings.FirstOrDefaultAsync(s => s.Key == key); return s?.Value; }
     public async Task SetSettingAsync(string key, string value, string? group = null)
     {

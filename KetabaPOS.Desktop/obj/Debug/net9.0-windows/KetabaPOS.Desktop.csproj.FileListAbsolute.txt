@@ -170,3 +170,4 @@ D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\KetabaPOS.Desktop.pdb
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\KetabaPOS.Desktop.genruntimeconfig.cache
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\ref\KetabaPOS.Desktop.dll
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\bin\Debug\net9.0-windows\appsettings.json
