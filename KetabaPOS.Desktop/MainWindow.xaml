@@ -74,6 +74,20 @@
                 </Grid.ColumnDefinitions>
                 <StackPanel>
                     <TextBlock Text="Point of Sale" Style="{StaticResource PageHeaderStyle}" />
+
+                    <!-- Barcode Scanner Bar -->
+                    <Border Style="{StaticResource CardStyle}" Padding="12,8" Margin="0,0,0,12" Background="#F8FAFC">
+                        <DockPanel>
+                            <TextBlock DockPanel.Dock="Left" Text="Barcode:" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock DockPanel.Dock="Right" Text="{Binding ScanStatus}" VerticalAlignment="Center" FontSize="12" Foreground="#10B981" Margin="12,0,0,0"/>
+                            <TextBox Text="{Binding BarcodeText, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Height="34" Padding="4,0">
+                                <TextBox.InputBindings>
+                                    <KeyBinding Key="Enter" Command="{Binding ScanBarcodeCommand}" />
+                                </TextBox.InputBindings>
+                            </TextBox>
+                        </DockPanel>
+                    </Border>
+
                     <DockPanel Margin="0,0,0,16">
                         <Button DockPanel.Dock="Right" Content="Search" Command="{Binding SearchProductsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
