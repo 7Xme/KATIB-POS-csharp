@@ -31,6 +31,8 @@ public partial class PosViewModel : ObservableObject
     private int _lastSaleId;
 
     [ObservableProperty] private string _searchText = string.Empty;
+    [ObservableProperty] private string _barcodeText = string.Empty;
+    [ObservableProperty] private string _scanStatus = string.Empty;
     [ObservableProperty] private int? _selectedCategoryId;
     [ObservableProperty] private ObservableCollection<Product> _products = new();
     [ObservableProperty] private ObservableCollection<CartItemViewModel> _cartItems = new();
@@ -74,7 +76,25 @@ public partial class PosViewModel : ObservableObject
     [RelayCommand] private void RemoveFromCart(CartItemViewModel item) { CartItems.Remove(item); Recalculate(); }
 
     [RelayCommand]
-    private void ClearCart() { CartItems.Clear(); Subtotal = 0; TaxAmount = 0; DiscountAmount = 0; TotalAmount = 0; PaidAmount = 0; ChangeAmount = 0; ShowReceiptButton = false; }
+    private async Task ScanBarcodeAsync()
+    {
+        if (string.IsNullOrWhiteSpace(BarcodeText)) return;
+        var barcode = BarcodeText.Trim();
+        var product = await _productService.GetByBarcodeAsync(barcode);
+        if (product != null)
+        {
+            AddToCart(product);
+            ScanStatus = $"Added: {product.Name}";
+        }
+        else
+        {
+            ScanStatus = $"Not found: {barcode}";
+        }
+        BarcodeText = string.Empty;
+    }
+
+    [RelayCommand]
+    private void ClearCart() { CartItems.Clear(); Subtotal = 0; TaxAmount = 0; DiscountAmount = 0; TotalAmount = 0; PaidAmount = 0; ChangeAmount = 0; ShowReceiptButton = false; ScanStatus = string.Empty; }
 
     [RelayCommand]
     private async Task CompleteSaleAsync()
