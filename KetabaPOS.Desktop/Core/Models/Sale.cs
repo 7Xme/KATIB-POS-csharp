@@ -1,7 +1,5 @@
 using KetabaPOS.Desktop.Core.Enums;
-
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class Sale : BaseEntity
 {
     public string InvoiceNumber { get; set; } = string.Empty;
@@ -16,7 +14,6 @@ public class Sale : BaseEntity
     public PaymentMethod PaymentMethod { get; set; } = PaymentMethod.Cash;
     public SaleStatus Status { get; set; } = SaleStatus.Completed;
     public string? Notes { get; set; }
-
     public Customer? Customer { get; set; }
     public User User { get; set; } = null!;
     public ICollection<SaleItem> SaleItems { get; set; } = new List<SaleItem>();

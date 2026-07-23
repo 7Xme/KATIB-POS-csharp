@@ -1,5 +1,4 @@
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class BackupLog : BaseEntity
 {
     public string FileName { get; set; } = string.Empty;

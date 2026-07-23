@@ -1,5 +1,4 @@
 namespace KetabaPOS.Desktop.Core.Interfaces;
-
 public interface ISettingsService
 {
     Task<string?> GetSettingAsync(string key);

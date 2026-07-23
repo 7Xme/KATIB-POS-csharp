@@ -1,23 +1,14 @@
+using System.IO;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
-
 namespace KetabaPOS.Desktop.Infrastructure.Data;
-
 public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
-        var config = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "..", "KetabaPOS.Desktop"))
-            .AddJsonFile("appsettings.json", optional: true)
-            .Build();
-
+        var dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KetabaPOS");
         var builder = new DbContextOptionsBuilder<AppDbContext>();
-        var connectionString = config.GetConnectionString("DefaultConnection")
-            ?? $"Data Source={Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KetabaPOS", "ketaba.db")}";
-
-        builder.UseSqlite(connectionString);
+        builder.UseSqlite($"Data Source={Path.Combine(dbFolder, "ketaba.db")}");
         return new AppDbContext(builder.Options);
     }
 }

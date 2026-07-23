@@ -1,5 +1,4 @@
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class Purchase : BaseEntity
 {
     public string PurchaseOrderNumber { get; set; } = string.Empty;
@@ -10,7 +9,6 @@ public class Purchase : BaseEntity
     public decimal PaidAmount { get; set; }
     public string? Notes { get; set; }
     public bool IsReceived { get; set; }
-
     public Supplier Supplier { get; set; } = null!;
     public ICollection<PurchaseItem> PurchaseItems { get; set; } = new List<PurchaseItem>();
 }

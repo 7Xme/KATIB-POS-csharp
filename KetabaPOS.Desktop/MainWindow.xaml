@@ -1,0 +1,248 @@
+﻿<Window x:Class="KetabaPOS.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:vm="clr-namespace:KetabaPOS.Desktop.Presentation.ViewModels"
+        mc:Ignorable="d"
+        Title="Ketaba POS - Point of Sale System" Height="800" Width="1200"
+        WindowState="Maximized"
+        TextElement.Foreground="{DynamicResource MaterialDesignBodyTextBrush}"
+        TextElement.FontWeight="Regular"
+        TextElement.FontSize="13"
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto"
+        Background="{DynamicResource MaterialDesignPaper}"
+        FontFamily="{DynamicResource MaterialDesignFont}">
+    <Window.Resources>
+        <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
+            <Grid Margin="24">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock Text="Dashboard" Style="{StaticResource PageHeaderStyle}" />
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel>
+                        <UniformGrid Columns="4" Margin="0,0,0,24">
+                            <Border Style="{StaticResource KpiCardStyle}" Margin="8">
+                                <StackPanel>
+                                    <TextBlock Text="Today Sales" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding TodaySales, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource KpiCardStyle}" Margin="8">
+                                <StackPanel>
+                                    <TextBlock Text="Transactions" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding TodayTransactions}" Style="{StaticResource KpiValueStyle}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource KpiCardStyle}" Margin="8">
+                                <StackPanel>
+                                    <TextBlock Text="Low Stock Items" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding LowStockProducts}" Style="{StaticResource KpiValueStyle}" />
+                                </StackPanel>
+                            </Border>
+                            <Border Style="{StaticResource KpiCardStyle}" Margin="8">
+                                <StackPanel>
+                                    <TextBlock Text="Active Loans" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding ActiveLoans}" Style="{StaticResource KpiValueStyle}" />
+                                </StackPanel>
+                            </Border>
+                        </UniformGrid>
+                        <Border Style="{StaticResource CardStyle}" Margin="8">
+                            <StackPanel>
+                                <TextBlock Text="Recent Activity" Style="{StaticResource SectionHeaderStyle}" />
+                                <ItemsControl ItemsSource="{Binding RecentActivities}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Description}" Margin="0,4" />
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+                    </StackPanel>
+                </ScrollViewer>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:PosViewModel}">
+            <Grid Margin="24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="400"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Point of Sale" Style="{StaticResource PageHeaderStyle}" />
+                    <DockPanel Margin="0,0,0,16">
+                        <Button DockPanel.Dock="Right" Content="Search" Command="{Binding SearchProductsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Search by name or barcode..." />
+                    </DockPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <ItemsControl ItemsSource="{Binding Products}">
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <WrapPanel />
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Style="{StaticResource CardStyle}" Margin="8" Width="180" Height="120">
+                                        <StackPanel>
+                                            <TextBlock Text="{Binding Name}" FontWeight="Medium" />
+                                            <TextBlock Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="{StaticResource PrimaryHueMidBrush}" FontSize="18" FontWeight="Bold" />
+                                            <Button Content="Add" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="32" Margin="0,8,0,0"/>
+                                        </StackPanel>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </ScrollViewer>
+                </StackPanel>
+                <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="16,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Cart" Style="{StaticResource SectionHeaderStyle}" />
+                        <ItemsControl ItemsSource="{Binding CartItems}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Border Margin="0,4" Padding="8" BorderBrush="{StaticResource MaterialDesignDivider}" BorderThickness="0,0,0,1">
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding ProductName}" FontWeight="Medium" />
+                                                <TextBlock Text="{Binding Total, StringFormat={}{0:N2}}" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                                            </StackPanel>
+                                            <Button Grid.Column="1" Content="X" Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource MaterialDesignFlatButton}" Foreground="{StaticResource DangerColor}"/>
+                                        </Grid>
+                                    </Border>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                        <Separator Margin="0,8" />
+                        <TextBlock Text="{Binding Subtotal, StringFormat=Subtotal: {0:N2}}" />
+                        <TextBlock Text="{Binding TaxAmount, StringFormat=Tax (15%): {0:N2}}" />
+                        <TextBlock Text="{Binding DiscountAmount, StringFormat=Discount: {0:N2}}" />
+                        <TextBlock Text="{Binding TotalAmount, StringFormat=Total: {0:N2}}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource PrimaryHueMidBrush}" />
+                        <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Amount Paid" Margin="0,16,0,0" />
+                        <TextBlock Text="{Binding ChangeAmount, StringFormat=Change: {0:N2}}" />
+                        <Button Content="Complete Sale" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
+                        <Button Content="Clear Cart" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:ProductsViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Products" Style="{StaticResource PageHeaderStyle}" />
+                <DataGrid ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="False" Margin="0,60,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Barcode" Binding="{Binding Barcode}" Width="150" />
+                        <DataGridTextColumn Header="Price" Binding="{Binding RetailPrice, StringFormat={}{0:N2}}" Width="100" />
+                        <DataGridTextColumn Header="Stock" Binding="{Binding StockQuantity}" Width="80" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:CustomersViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Customers" Style="{StaticResource PageHeaderStyle}" />
+                <DataGrid ItemsSource="{Binding Customers}" AutoGenerateColumns="False" Margin="0,60,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="150" />
+                        <DataGridTextColumn Header="Balance" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="120" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SuppliersViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Suppliers" Style="{StaticResource PageHeaderStyle}" />
+                <DataGrid ItemsSource="{Binding Suppliers}" AutoGenerateColumns="False" Margin="0,60,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" Width="*" />
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}" Width="150" />
+                        <DataGridTextColumn Header="Balance" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="120" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SalesViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Sales History" Style="{StaticResource PageHeaderStyle}" />
+                <DataGrid ItemsSource="{Binding Sales}" AutoGenerateColumns="False" Margin="0,60,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Invoice" Binding="{Binding InvoiceNumber}" Width="150" />
+                        <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="100" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="*" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:LoansViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Loans &amp; Debts" Style="{StaticResource PageHeaderStyle}" />
+                <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" Margin="0,60,0,0">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Amount" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="120" />
+                        <DataGridTextColumn Header="Paid" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="120" />
+                        <DataGridTextColumn Header="Status" Binding="{Binding Status}" Width="100" />
+                        <DataGridTextColumn Header="Due" Binding="{Binding DueDate, StringFormat={}{0:d}}" Width="100" />
+                    </DataGrid.Columns>
+                </DataGrid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
+            <Grid Margin="24">
+                <TextBlock Text="Settings" Style="{StaticResource PageHeaderStyle}" />
+                <StackPanel Grid.Row="1" MaxWidth="500">
+                    <TextBox Text="{Binding CompanyName}" materialDesign:HintAssist.Hint="Company Name" Margin="0,8" />
+                    <TextBox Text="{Binding CompanyNameAr}" materialDesign:HintAssist.Hint="Company Name (Arabic)" Margin="0,8" />
+                    <TextBox Text="{Binding TaxRate}" materialDesign:HintAssist.Hint="Tax Rate (%)" Margin="0,8" />
+                    <TextBox Text="{Binding Currency}" materialDesign:HintAssist.Hint="Currency" Margin="0,8" />
+                    <Button Content="Save Settings" Command="{Binding SaveSettingsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16" />
+                    <Button Content="Backup Database" Command="{Binding BackupDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,8" />
+                    <Button Content="Restore Database" Command="{Binding RestoreDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,8" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="{StaticResource SuccessColor}" Margin="0,8" />
+                </StackPanel>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
+
+    <DockPanel>
+        <materialDesign:ColorZone DockPanel.Dock="Top" Mode="PrimaryMid" Padding="16,12">
+            <DockPanel>
+                <TextBlock Text="Ketaba POS" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" />
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Dashboard" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                    <Button Content="POS" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
+                    <Button Content="Products" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Products" />
+                    <Button Content="Customers" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
+                    <Button Content="Suppliers" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
+                    <Button Content="Sales" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
+                    <Button Content="Loans" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
+                    <Button Content="Settings" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
+                    <Separator Style="{StaticResource {x:Static ToolBar.SeparatorStyleKey}}" Margin="8,0" />
+                    <Button Content="Logout" Margin="4,0" Style="{StaticResource MaterialDesignFlatButton}" Command="{Binding LogoutCommand}" />
+                    <ToggleButton Margin="8,0" Style="{StaticResource MaterialDesignSwitchToggleButton}" IsChecked="{Binding IsDarkTheme}" ToolTip="Toggle Theme" />
+                </StackPanel>
+            </DockPanel>
+        </materialDesign:ColorZone>
+
+        <Grid>
+            <ContentControl Content="{Binding CurrentViewModel}" />
+        </Grid>
+    </DockPanel>
+</Window>

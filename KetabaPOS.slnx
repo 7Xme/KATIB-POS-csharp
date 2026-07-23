@@ -1,3 +1,4 @@
 <Solution>
   <Project Path="KetabaPOS.Desktop/KetabaPOS.Desktop.csproj" />
+  <Project Path="KetabaPOS.Tests/KetabaPOS.Tests.csproj" />
 </Solution>

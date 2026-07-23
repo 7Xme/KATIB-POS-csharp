@@ -1,9 +1,2 @@
 namespace KetabaPOS.Desktop.Core.Enums;
-
-public enum UserRole
-{
-    Admin,
-    Manager,
-    Cashier,
-    Viewer
-}
+public enum UserRole { Admin, Manager, Cashier, Viewer }

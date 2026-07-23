@@ -1,5 +1,4 @@
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class Customer : BaseEntity
 {
     public string Name { get; set; } = string.Empty;
@@ -10,7 +9,6 @@ public class Customer : BaseEntity
     public decimal CreditLimit { get; set; }
     public decimal Balance { get; set; }
     public int LoyaltyPoints { get; set; }
-
     public ICollection<Sale> Sales { get; set; } = new List<Sale>();
     public ICollection<Loan> Loans { get; set; } = new List<Loan>();
 }

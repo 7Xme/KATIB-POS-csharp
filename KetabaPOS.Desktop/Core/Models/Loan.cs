@@ -1,7 +1,5 @@
 using KetabaPOS.Desktop.Core.Enums;
-
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class Loan : BaseEntity
 {
     public LoanType LoanType { get; set; }
@@ -14,7 +12,6 @@ public class Loan : BaseEntity
     public DateTime DueDate { get; set; }
     public LoanStatus Status { get; set; } = LoanStatus.Active;
     public string? Notes { get; set; }
-
     public Customer? Customer { get; set; }
     public Supplier? Supplier { get; set; }
     public ICollection<LoanPayment> LoanPayments { get; set; } = new List<LoanPayment>();

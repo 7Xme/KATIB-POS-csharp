@@ -1,0 +1,227 @@
+{
+  "format": 1,
+  "restore": {
+    "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Tests\\KetabaPOS.Tests.csproj": {}
+  },
+  "projects": {
+    "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj",
+        "projectName": "KetabaPOS.Desktop",
+        "projectPath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj",
+        "packagesPath": "C:\\Users\\Jaklin\\.nuget\\packages\\",
+        "outputPath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Jaklin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-windows": {
+            "framework": "net9.0-windows7.0",
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net9.0-windows": {
+          "framework": "net9.0-windows7.0",
+          "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
+            "CommunityToolkit.Mvvm": {
+              "target": "Package",
+              "version": "[8.3.2, )"
+            },
+            "MaterialDesignColors": {
+              "target": "Package",
+              "version": "[5.2.1, )"
+            },
+            "MaterialDesignThemes": {
+              "target": "Package",
+              "version": "[5.2.1, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Extensions.Hosting": {
+              "target": "Package",
+              "version": "[9.0.0, )"
+            },
+            "Microsoft.Xaml.Behaviors.Wpf": {
+              "target": "Package",
+              "version": "[1.1.135, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Host.win-x64",
+              "version": "[9.0.18, 9.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            },
+            "Microsoft.WindowsDesktop.App.WPF": {
+              "privateAssets": "none"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    },
+    "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Tests\\KetabaPOS.Tests.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Tests\\KetabaPOS.Tests.csproj",
+        "projectName": "KetabaPOS.Tests",
+        "projectPath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Tests\\KetabaPOS.Tests.csproj",
+        "packagesPath": "C:\\Users\\Jaklin\\.nuget\\packages\\",
+        "outputPath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Tests\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\Jaklin\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        ],
+        "originalTargetFrameworks": [
+          "net9.0-windows"
+        ],
+        "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "net9.0-windows": {
+            "framework": "net9.0-windows7.0",
+            "targetAlias": "net9.0-windows",
+            "projectReferences": {
+              "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj": {
+                "projectPath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj"
+              }
+            }
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        },
+        "restoreAuditProperties": {
+          "enableAudit": "true",
+          "auditLevel": "low",
+          "auditMode": "direct"
+        },
+        "SdkAnalysisLevel": "10.0.300"
+      },
+      "frameworks": {
+        "net9.0-windows": {
+          "framework": "net9.0-windows7.0",
+          "targetAlias": "net9.0-windows",
+          "dependencies": {
+            "Microsoft.NET.Test.Sdk": {
+              "target": "Package",
+              "version": "[17.14.1, )"
+            },
+            "coverlet.collector": {
+              "target": "Package",
+              "version": "[6.0.4, )"
+            },
+            "xunit": {
+              "target": "Package",
+              "version": "[2.9.3, )"
+            },
+            "xunit.runner.visualstudio": {
+              "target": "Package",
+              "version": "[3.1.4, )"
+            }
+          },
+          "imports": [
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48",
+            "net481"
+          ],
+          "assetTargetFallback": true,
+          "warn": true,
+          "downloadDependencies": [
+            {
+              "name": "Microsoft.AspNetCore.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            },
+            {
+              "name": "Microsoft.NETCore.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            },
+            {
+              "name": "Microsoft.WindowsDesktop.App.Ref",
+              "version": "[9.0.18, 9.0.18]"
+            }
+          ],
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.302/PortableRuntimeIdentifierGraph.json"
+        }
+      }
+    }
+  }
+}

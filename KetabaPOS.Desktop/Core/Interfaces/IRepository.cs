@@ -1,7 +1,5 @@
 using System.Linq.Expressions;
-
 namespace KetabaPOS.Desktop.Core.Interfaces;
-
 public interface IRepository<T> where T : class
 {
     Task<T?> GetByIdAsync(int id);

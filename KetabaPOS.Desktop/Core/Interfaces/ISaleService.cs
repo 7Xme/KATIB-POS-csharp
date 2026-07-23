@@ -1,7 +1,5 @@
 using KetabaPOS.Desktop.Core.Models;
-
 namespace KetabaPOS.Desktop.Core.Interfaces;
-
 public interface ISaleService
 {
     Task<Sale> CreateSaleAsync(Sale sale, List<SaleItem> items);

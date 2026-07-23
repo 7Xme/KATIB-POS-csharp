@@ -1,5 +1,4 @@
 namespace KetabaPOS.Desktop.Core.Models;
-
 public class Setting : BaseEntity
 {
     public string Key { get; set; } = string.Empty;
