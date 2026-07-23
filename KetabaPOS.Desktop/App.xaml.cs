@@ -14,6 +14,23 @@ public partial class App : Application
 {
     private ServiceProvider? _serviceProvider;
 
+    public App()
+    {
+        DispatcherUnhandledException += (s, e) =>
+        {
+            MessageBox.Show($"Runtime error:\n{e.Exception.GetType().Name}: {e.Exception.Message}\n\nStack Trace:\n{e.Exception.StackTrace}",
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            e.Handled = true;
+        };
+
+        TaskScheduler.UnobservedTaskException += (s, e) =>
+        {
+            MessageBox.Show($"Background task error:\n{e.Exception?.GetType().Name}: {e.Exception?.Message}",
+                "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            e.SetObserved();
+        };
+    }
+
     protected override void OnStartup(StartupEventArgs e)
     {
         try

@@ -93,19 +93,8 @@
                                                 <RowDefinition Height="Auto"/>
                                                 <RowDefinition Height="Auto"/>
                                             </Grid.RowDefinitions>
-                                            <Border Grid.Row="0" Background="#F1F5F9" CornerRadius="8">
-                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" Width="80" Height="80" Stretch="Uniform">
-                                                    <Image.Style>
-                                                        <Style TargetType="Image">
-                                                            <Setter Property="Source" Value="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" />
-                                                            <Style.Triggers>
-                                                                <Trigger Property="Source" Value="{x:Null}">
-                                                                    <Setter Property="Source" Value="{x:Null}" />
-                                                                </Trigger>
-                                                            </Style.Triggers>
-                                                        </Style>
-                                                    </Image.Style>
-                                                </Image>
+                                            <Border Grid.Row="0" Background="#F1F5F9" CornerRadius="8" Width="80" Height="80" HorizontalAlignment="Center">
+                                                <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" Width="72" Height="72" Stretch="Uniform" />
                                             </Border>
                                             <TextBlock Grid.Row="1" Text="{Binding Name}" FontWeight="Medium" FontSize="12" Margin="4,4,4,0" TextWrapping="Wrap" MaxHeight="32" />
                                             <TextBlock Grid.Row="2" Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="#2563EB" FontSize="16" FontWeight="Bold" Margin="4,2,4,0" />
