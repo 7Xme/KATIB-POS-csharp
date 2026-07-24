@@ -14,6 +14,8 @@ public partial class DashboardViewModel : ObservableObject
     [ObservableProperty] private decimal _totalRevenue;
     [ObservableProperty] private List<ChartDataPoint> _salesLast7Days = new();
     [ObservableProperty] private List<RecentActivity> _recentActivities = new();
+    [ObservableProperty] private List<LowStockProduct> _lowStockProductList = new();
+    [ObservableProperty] private bool _hasLowStockItems;
     [ObservableProperty] private bool _isLoading;
     [ObservableProperty] private string _errorMessage = string.Empty;
 
@@ -34,6 +36,8 @@ public partial class DashboardViewModel : ObservableObject
             TotalRevenue = data.TotalRevenue;
             SalesLast7Days = data.SalesLast7Days;
             RecentActivities = data.RecentActivities;
+            LowStockProductList = data.LowStockProductList;
+            HasLowStockItems = data.LowStockProductList.Count > 0;
         }
         catch (Exception ex)
         {

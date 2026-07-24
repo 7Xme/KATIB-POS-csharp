@@ -23,6 +23,12 @@ public partial class SalesViewModel : ObservableObject
     [ObservableProperty] private int _totalCount;
     public int TotalPages => (int)System.Math.Ceiling((double)TotalCount / PageSize);
 
+    [ObservableProperty] private int _summaryTransactions;
+    [ObservableProperty] private decimal _summaryTotalSales;
+    [ObservableProperty] private decimal _summaryTotalTax;
+    [ObservableProperty] private decimal _summaryTotalDiscounts;
+    [ObservableProperty] private decimal _summaryAverage;
+
     [ObservableProperty] private Sale? _selectedSale;
     [ObservableProperty] private ObservableCollection<SaleItem> _saleItems = new();
     [ObservableProperty] private bool _showDetail;
@@ -39,6 +45,12 @@ public partial class SalesViewModel : ObservableObject
             Sales = new ObservableCollection<Sale>(await _saleService.GetSalesAsync(FromDate, ToDate, CurrentPage, PageSize));
             TotalCount = (await _saleService.GetSalesAsync(FromDate, ToDate)).Count();
             OnPropertyChanged(nameof(TotalPages));
+            var summary = await _saleService.GetSalesSummaryAsync(FromDate, ToDate);
+            SummaryTransactions = summary.TotalTransactions;
+            SummaryTotalSales = summary.TotalSales;
+            SummaryTotalTax = summary.TotalTax;
+            SummaryTotalDiscounts = summary.TotalDiscounts;
+            SummaryAverage = summary.AverageTransactionValue;
         }
         catch (Exception ex) { StatusMessage = $"Error: {ex.Message}"; }
         finally { IsLoading = false; }

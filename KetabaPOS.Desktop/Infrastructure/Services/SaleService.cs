@@ -114,6 +114,25 @@ public class SaleService : ISaleService
         return true;
     }
 
+    public async Task<SalesSummary> GetSalesSummaryAsync(DateTime? from = null, DateTime? to = null)
+    {
+        var query = _context.Sales.Where(s => s.Status == SaleStatus.Completed).AsQueryable();
+        if (from.HasValue) query = query.Where(s => s.CreatedAt >= from.Value);
+        if (to.HasValue) query = query.Where(s => s.CreatedAt <= to.Value);
+        var totalTransactions = await query.CountAsync();
+        var totalSales = await query.SumAsync(s => s.TotalAmount);
+        var totalTax = await query.SumAsync(s => s.TaxAmount);
+        var totalDiscounts = await query.SumAsync(s => s.DiscountAmount);
+        return new SalesSummary
+        {
+            TotalTransactions = totalTransactions,
+            TotalSales = totalSales,
+            TotalTax = totalTax,
+            TotalDiscounts = totalDiscounts,
+            AverageTransactionValue = totalTransactions > 0 ? totalSales / totalTransactions : 0
+        };
+    }
+
     public async Task<bool> RefundSaleAsync(int saleId, string? reason = null)
     {
         var sale = await _context.Sales.Include(s => s.SaleItems).FirstOrDefaultAsync(s => s.Id == saleId);

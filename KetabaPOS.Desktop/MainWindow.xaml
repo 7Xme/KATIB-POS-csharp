@@ -27,6 +27,33 @@
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" Margin="0,-16,0,16" />
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
+                        <!-- Sales Chart -->
+                        <Border Style="{StaticResource CardStyle}" Margin="8,0,8,24">
+                            <StackPanel>
+                                <TextBlock Text="Sales This Week" Style="{StaticResource SectionHeaderStyle}" />
+                                <Grid Height="200">
+                                    <ItemsControl ItemsSource="{Binding SalesLast7Days}">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <UniformGrid Columns="7" />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <StackPanel VerticalAlignment="Bottom" HorizontalAlignment="Center" Margin="4,0">
+                                                    <Border Background="#2563EB" CornerRadius="4,4,0,0"
+                                                            Height="{Binding Value, Converter={StaticResource ChartBarConverter}}"
+                                                            Width="32" HorizontalAlignment="Center" Opacity="0.85"/>
+                                                    <TextBlock Text="{Binding Value, StringFormat={}{0:N0}}" FontSize="11" Foreground="#64748B" TextAlignment="Center" Margin="0,2,0,0"/>
+                                                    <TextBlock Text="{Binding Label}" FontSize="11" FontWeight="Medium" Foreground="#475569" TextAlignment="Center"/>
+                                                </StackPanel>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Grid>
+                            </StackPanel>
+                        </Border>
+
                         <UniformGrid Columns="4" Margin="0,0,0,24">
                             <Border Style="{StaticResource KpiCardStyle}" Margin="8">
                                 <StackPanel>
@@ -53,6 +80,31 @@
                                 </StackPanel>
                             </Border>
                         </UniformGrid>
+                        <!-- Low Stock Alerts -->
+                        <Border Style="{StaticResource CardStyle}" Margin="8" Visibility="{Binding HasLowStockItems, Converter={StaticResource BoolToVisibilityConverter}}">
+                            <StackPanel>
+                                <TextBlock Text="Low Stock Alerts" Style="{StaticResource SectionHeaderStyle}" Foreground="#EF4444" />
+                                <ItemsControl ItemsSource="{Binding LowStockProductList}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,2" Padding="8,4" CornerRadius="4" Background="#FEF2F2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Medium" />
+                                                    <TextBlock Grid.Column="1" Foreground="#EF4444" Text="{Binding StockQuantity, StringFormat=Stock: {0}}" Margin="12,0" />
+                                                    <TextBlock Grid.Column="2" Foreground="#64748B" Text="{Binding MinStockLevel, StringFormat=Min: {0}}" />
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </StackPanel>
+                        </Border>
+
                         <Border Style="{StaticResource CardStyle}" Margin="8">
                             <StackPanel>
                                 <TextBlock Text="Recent Activity" Style="{StaticResource SectionHeaderStyle}" />
@@ -418,17 +470,50 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Sales History" Style="{StaticResource PageHeaderStyle}" />
                     <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,10">
                         <DatePicker SelectedDate="{Binding FromDate}" Width="140" />
                         <DatePicker SelectedDate="{Binding ToDate}" Width="140" Margin="12,0,0,0" />
                         <Button Content="Filter" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
                     </StackPanel>
-                    <DataGrid Grid.Row="2" ItemsSource="{Binding Sales}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                    <UniformGrid Columns="5" Margin="0,0,0,16" Grid.Row="2">
+                        <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Total Sales" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding SummaryTotalSales, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Transactions" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding SummaryTransactions}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Avg / Sale" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding SummaryAverage, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Total Tax" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding SummaryTotalTax, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
+                            </StackPanel>
+                        </Border>
+                        <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
+                            <StackPanel>
+                                <TextBlock Text="Total Discounts" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding SummaryTotalDiscounts, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
+                            </StackPanel>
+                        </Border>
+                    </UniformGrid>
+                    <DataGrid Grid.Row="3" ItemsSource="{Binding Sales}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Invoice" Binding="{Binding InvoiceNumber}" Width="140" />
                             <DataGridTextColumn Header="Customer" Binding="{Binding Customer.Name}" Width="*" />
@@ -451,7 +536,7 @@
                             </DataGridTemplateColumn>
                         </DataGrid.Columns>
                     </DataGrid>
-                    <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal" Grid.Row="4" Margin="0,12,0,0" HorizontalAlignment="Center">
                         <Button Content="Previous" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
                         <TextBlock Text="{Binding CurrentPage, StringFormat=Page {0}}" VerticalAlignment="Center" Margin="12,0" />
                         <Button Content="Next" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
@@ -738,6 +823,64 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:UsersViewModel}">
+            <Grid Margin="24">
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="User Management" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
+                        <Button Content="+ Add User" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Background="#10B981"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding Users}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Username" Binding="{Binding Username}" Width="*" />
+                            <DataGridTextColumn Header="Display Name" Binding="{Binding DisplayName}" Width="*" />
+                            <DataGridTextColumn Header="Role" Binding="{Binding Role}" Width="100" />
+                            <DataGridCheckBoxColumn Header="Active" Binding="{Binding IsActive}" Width="70" />
+                            <DataGridTextColumn Header="Last Login" Binding="{Binding LastLogin, StringFormat={}{0:g}}" Width="140" />
+                            <DataGridTemplateColumn Header="Actions" Width="220">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Edit" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="Toggle Active" Command="{Binding DataContext.ToggleActiveCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="Delete" Command="{Binding DataContext.DeleteUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <!-- Form View -->
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel MaxWidth="500">
+                            <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
+                            <TextBlock Text="Username" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormUsername}" />
+                            <TextBlock Text="Display Name" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormDisplayName}" />
+                            <TextBlock Text="Role" Margin="0,8,0,2" Foreground="#475569"/>
+                            <ComboBox ItemsSource="{Binding UserRoles}" SelectedItem="{Binding FormRole}" Margin="0,0,0,12" />
+                            <TextBlock Text="Password (leave blank to keep unchanged)" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBox Text="{Binding FormPassword}" />
+                            <StackPanel Orientation="Horizontal" Margin="0,16,0,24">
+                                <Button Content="Save" Command="{Binding SaveUserCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="Cancel" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
             <Grid Margin="24">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -767,6 +910,17 @@
                             <StackPanel>
                                 <TextBlock Text="Tax Rate (%)" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding TaxRate}" />
+                            </StackPanel>
+                        </Border>
+
+                        <!-- Localization & Appearance -->
+                        <TextBlock Text="Localization &amp; Appearance" Style="{StaticResource SectionHeaderStyle}" />
+                        <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                            <StackPanel>
+                                <TextBlock Text="Language" Margin="0,0,0,2" Foreground="#475569"/>
+                                <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding Language}" Margin="0,0,0,12" />
+                                <TextBlock Text="Theme" Margin="0,0,0,2" Foreground="#475569"/>
+                                <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding Theme}" Margin="0,0,0,12" />
                             </StackPanel>
                         </Border>
 
@@ -829,6 +983,7 @@
                     <Button Content="Sales" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
                     <Button Content="Purchases" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
                     <Button Content="Loans" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
+                    <Button Content="Users" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Users" />
                     <Button Content="Settings" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
                     <Separator Margin="8,0" Background="White" Opacity="0.5" Width="1" Height="20" />
                     <Button Content="Logout" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />

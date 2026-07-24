@@ -8,6 +8,13 @@ public class DashboardData
     public decimal TotalRevenue { get; set; }
     public List<ChartDataPoint> SalesLast7Days { get; set; } = new();
     public List<RecentActivity> RecentActivities { get; set; } = new();
+    public List<LowStockProduct> LowStockProductList { get; set; } = new();
+}
+public class LowStockProduct
+{
+    public string Name { get; set; } = string.Empty;
+    public double StockQuantity { get; set; }
+    public double MinStockLevel { get; set; }
 }
 public class ChartDataPoint
 {

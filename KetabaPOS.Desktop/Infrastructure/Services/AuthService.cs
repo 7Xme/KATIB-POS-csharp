@@ -22,4 +22,19 @@ public class AuthService : IAuthService
     }
     public Task<User?> GetCurrentUserAsync() => Task.FromResult(_currentUser);
     public void Logout() => _currentUser = null;
+    public async Task<List<User>> GetAllUsersAsync() => await _context.Users.Where(u => !u.IsDeleted).OrderBy(u => u.Username).ToListAsync();
+    public async Task<User> CreateUserAsync(User user, string password)
+    {
+        user.PasswordHash = BCrypt.Net.BCrypt.HashPassword(password);
+        user.CreatedAt = DateTime.UtcNow;
+        _context.Users.Add(user);
+        await _context.SaveChangesAsync();
+        return user;
+    }
+    public async Task UpdateUserAsync(User user) { user.UpdatedAt = DateTime.UtcNow; _context.Users.Update(user); await _context.SaveChangesAsync(); }
+    public async Task ToggleUserActiveAsync(int userId)
+    {
+        var user = await _context.Users.FindAsync(userId);
+        if (user != null) { user.IsActive = !user.IsActive; user.UpdatedAt = DateTime.UtcNow; await _context.SaveChangesAsync(); }
+    }
 }

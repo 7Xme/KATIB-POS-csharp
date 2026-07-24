@@ -66,6 +66,7 @@ public partial class App : Application
             services.AddTransient<SuppliersViewModel>();
             services.AddTransient<SalesViewModel>();
             services.AddTransient<LoansViewModel>();
+            services.AddTransient<UsersViewModel>();
             services.AddTransient<PurchasesViewModel>();
             services.AddTransient<SettingsViewModel>();
 

@@ -3,6 +3,7 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Interfaces;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
@@ -25,10 +26,15 @@ public partial class SettingsViewModel : ObservableObject
     [ObservableProperty] private string _logoPath = string.Empty;
     [ObservableProperty] private string _logoPreviewPath = string.Empty;
 
+    [ObservableProperty] private string _language = "en";
+    [ObservableProperty] private string _theme = "Light";
+
     [ObservableProperty] private string _statusMessage = string.Empty;
     [ObservableProperty] private bool _isLoading;
 
     public string[] PaperFormats { get; } = { "Thermal 80mm", "A4", "A5", "A6", "Letter" };
+    public string[] Languages { get; } = { "en", "ar" };
+    public string[] Themes { get; } = { "Light", "Dark" };
 
     public SettingsViewModel(ISettingsService settingsService) { _settingsService = settingsService; }
 
@@ -52,6 +58,9 @@ public partial class SettingsViewModel : ObservableObject
             ReceiptTextColor = await _settingsService.GetSettingAsync("receipt_text_color") ?? "#000000";
             LogoPath = await _settingsService.GetSettingAsync("company_logo") ?? "";
             LogoPreviewPath = LogoPath;
+            Language = await _settingsService.GetSettingAsync("language") ?? "en";
+            Theme = await _settingsService.GetSettingAsync("theme") ?? "Light";
+            ApplyThemeAndLanguage();
         }
         catch (Exception ex) { StatusMessage = $"Error loading settings: {ex.Message}"; }
         finally { IsLoading = false; }
@@ -107,10 +116,29 @@ public partial class SettingsViewModel : ObservableObject
             await _settingsService.SetSettingAsync("paper_format", PaperFormat, "Receipt");
             await _settingsService.SetSettingAsync("receipt_text_color", ReceiptTextColor, "Receipt");
 
+            await _settingsService.SetSettingAsync("language", Language, "Localization");
+            await _settingsService.SetSettingAsync("theme", Theme, "Appearance");
+
+            ApplyThemeAndLanguage();
+
             StatusMessage = "Settings saved successfully!";
         }
         catch (Exception ex) { StatusMessage = $"Error saving settings: {ex.Message}"; }
         finally { IsLoading = false; }
+    }
+
+    private void ApplyThemeAndLanguage()
+    {
+        var isDark = Theme == "Dark";
+        var paletteHelper = new PaletteHelper();
+        var theme = paletteHelper.GetTheme();
+        theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
+        paletteHelper.SetTheme(theme);
+
+        if (Application.Current.MainWindow is Window main)
+        {
+            main.FlowDirection = Language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        }
     }
 
     [RelayCommand]

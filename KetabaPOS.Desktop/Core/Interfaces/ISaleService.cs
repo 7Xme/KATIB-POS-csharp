@@ -8,4 +8,13 @@ public interface ISaleService
     Task<bool> CancelSaleAsync(int id);
     Task<bool> RefundSaleAsync(int saleId, string? reason = null);
     Task<byte[]> GenerateReceiptAsync(int saleId);
+    Task<SalesSummary> GetSalesSummaryAsync(DateTime? from = null, DateTime? to = null);
+}
+public class SalesSummary
+{
+    public int TotalTransactions { get; set; }
+    public decimal TotalSales { get; set; }
+    public decimal TotalTax { get; set; }
+    public decimal TotalDiscounts { get; set; }
+    public decimal AverageTransactionValue { get; set; }
 }
