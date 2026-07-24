@@ -55,6 +55,7 @@ public partial class App : Application
             services.AddSingleton<ISaleService, SaleService>();
             services.AddSingleton<IDashboardService, DashboardService>();
             services.AddSingleton<ISettingsService, SettingsService>();
+            services.AddSingleton<IPurchaseService, PurchaseService>();
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<LoginViewModel>();
@@ -65,6 +66,7 @@ public partial class App : Application
             services.AddTransient<SuppliersViewModel>();
             services.AddTransient<SalesViewModel>();
             services.AddTransient<LoansViewModel>();
+            services.AddTransient<PurchasesViewModel>();
             services.AddTransient<SettingsViewModel>();
 
             _serviceProvider = services.BuildServiceProvider();

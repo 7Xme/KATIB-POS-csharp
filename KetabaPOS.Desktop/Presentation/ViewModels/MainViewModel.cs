@@ -41,6 +41,7 @@ public partial class MainViewModel : ObservableObject
             "Suppliers" => _serviceProvider.GetService<SuppliersViewModel>(),
             "Sales" => _serviceProvider.GetService<SalesViewModel>(),
             "Loans" => _serviceProvider.GetService<LoansViewModel>(),
+            "Purchases" => _serviceProvider.GetService<PurchasesViewModel>(),
             "Settings" => _serviceProvider.GetService<SettingsViewModel>(),
             _ => _serviceProvider.GetService<DashboardViewModel>()
         };
@@ -57,12 +58,13 @@ public partial class MainViewModel : ObservableObject
     private void RefreshViewModel(object vm)
     {
         if (vm is DashboardViewModel dvm) dvm.LoadDashboardCommand.Execute(null);
-        if (vm is PosViewModel pvm) pvm.LoadProductsCommand.Execute(null);
+        if (vm is PosViewModel pvm) { pvm.LoadProductsCommand.Execute(null); pvm.LoadCustomersCommand.Execute(null); }
         if (vm is ProductsViewModel prvm) { prvm.LoadCategoriesCommand.Execute(null); prvm.LoadProductsCommand.Execute(null); }
         if (vm is CustomersViewModel cvm) cvm.LoadCustomersCommand.Execute(null);
         if (vm is SuppliersViewModel svm) svm.LoadSuppliersCommand.Execute(null);
         if (vm is SalesViewModel savm) savm.LoadSalesCommand.Execute(null);
         if (vm is LoansViewModel lvm) { lvm.LoadCustomersCommand.Execute(null); lvm.LoadSuppliersCommand.Execute(null); lvm.LoadLoansCommand.Execute(null); }
+        if (vm is PurchasesViewModel puvm) { puvm.LoadSuppliersCommand.Execute(null); puvm.LoadPurchasesCommand.Execute(null); }
         if (vm is SettingsViewModel sevm) sevm.LoadSettingsCommand.Execute(null);
     }
 

@@ -97,6 +97,32 @@ public partial class SalesViewModel : ObservableObject
     }
 
     [RelayCommand]
+    private async Task RefundSaleAsync(Sale sale)
+    {
+        if (sale == null || sale.Status != Core.Enums.SaleStatus.Completed) return;
+        var dialog = new System.Windows.Controls.TextBox { Text = "Customer return", AcceptsReturn = true, TextWrapping = System.Windows.TextWrapping.Wrap, Height = 60, Margin = new Thickness(12) };
+        var okBtn = new System.Windows.Controls.Button { Content = "Confirm Refund", IsDefault = true, Margin = new Thickness(12, 0, 12, 12), Height = 36 };
+        var cancelBtn = new System.Windows.Controls.Button { Content = "Cancel", IsCancel = true, Margin = new Thickness(0, 0, 12, 12), Height = 36 };
+        var stack = new System.Windows.Controls.StackPanel();
+        stack.Children.Add(new System.Windows.Controls.TextBlock { Text = $"Refund sale {sale.InvoiceNumber}? Stock will be returned.", Margin = new Thickness(12, 12, 12, 0), FontWeight = FontWeights.Medium });
+        stack.Children.Add(dialog);
+        var btnPanel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal, HorizontalAlignment = System.Windows.HorizontalAlignment.Right };
+        btnPanel.Children.Add(cancelBtn); btnPanel.Children.Add(okBtn);
+        stack.Children.Add(btnPanel);
+        var win = new Window { Title = "Confirm Refund", Content = stack, Width = 400, Height = 220, WindowStartupLocation = WindowStartupLocation.CenterOwner, Owner = Application.Current.MainWindow, ResizeMode = ResizeMode.NoResize };
+        var result = false;
+        okBtn.Click += (s, e) => { result = true; win.DialogResult = true; win.Close(); };
+        cancelBtn.Click += (s, e) => win.Close();
+        if (win.ShowDialog() == true && result)
+        {
+            IsLoading = true;
+            try { await _saleService.RefundSaleAsync(sale.Id, dialog.Text); StatusMessage = "Sale refunded."; await LoadSalesAsync(); }
+            catch (Exception ex) { StatusMessage = $"Refund failed: {ex.Message}"; }
+            finally { IsLoading = false; }
+        }
+    }
+
+    [RelayCommand]
     private async Task PrintReceiptAsync(Sale sale)
     {
         if (sale == null) return;

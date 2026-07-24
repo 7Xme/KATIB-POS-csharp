@@ -31,4 +31,5 @@ public class ProductService : IProductService
         return await query.CountAsync();
     }
     public async Task<List<Category>> GetCategoriesAsync() => await _context.Categories.OrderBy(c => c.Name).ToListAsync();
+    public async Task<List<Customer>> GetCustomersAsync() => await _context.Customers.Where(c => !c.IsDeleted).OrderBy(c => c.Name).ToListAsync();
 }

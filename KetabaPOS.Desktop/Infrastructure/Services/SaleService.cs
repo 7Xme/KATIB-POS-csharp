@@ -114,6 +114,49 @@ public class SaleService : ISaleService
         return true;
     }
 
+    public async Task<bool> RefundSaleAsync(int saleId, string? reason = null)
+    {
+        var sale = await _context.Sales.Include(s => s.SaleItems).FirstOrDefaultAsync(s => s.Id == saleId);
+        if (sale == null || sale.Status != SaleStatus.Completed) return false;
+
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
+        {
+            sale.Status = SaleStatus.Refunded;
+            sale.Notes = string.IsNullOrWhiteSpace(reason) ? "Refunded" : $"Refunded: {reason}";
+            sale.UpdatedAt = DateTime.UtcNow;
+
+            foreach (var item in sale.SaleItems)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product != null)
+                {
+                    var qtyBefore = product.StockQuantity;
+                    product.StockQuantity += item.Quantity;
+                    _context.InventoryTransactions.Add(new InventoryTransaction
+                    {
+                        ProductId = item.ProductId,
+                        Type = TransactionType.Return,
+                        QuantityChange = item.Quantity,
+                        QuantityBefore = qtyBefore,
+                        QuantityAfter = product.StockQuantity,
+                        ReferenceNumber = $"REFUND-{sale.InvoiceNumber}",
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return true;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
     public async Task<byte[]> GenerateReceiptAsync(int saleId)
     {
         var sale = await GetSaleByIdAsync(saleId);

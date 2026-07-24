@@ -4,7 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:vm="clr-namespace:KetabaPOS.Desktop.Presentation.ViewModels"
-        xmlns:converters="clr-namespace:KetabaPOS.Desktop.Presentation.Converters"
+                    xmlns:converters="clr-namespace:KetabaPOS.Desktop.Presentation.Converters"
+                    xmlns:behaviors="clr-namespace:KetabaPOS.Desktop.Presentation.Behaviors"
+                    xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
         mc:Ignorable="d"
         Title="Ketaba POS - Point of Sale System" Height="800" Width="1200"
         WindowState="Maximized"
@@ -76,12 +78,15 @@
                 <StackPanel>
                     <TextBlock Text="Point of Sale" Style="{StaticResource PageHeaderStyle}" />
 
-                    <!-- Barcode Scanner Bar -->
+                    <!-- Barcode Scanner Bar (auto-focused on load) -->
                     <Border Style="{StaticResource CardStyle}" Padding="12,8" Margin="0,0,0,12" Background="#F8FAFC">
                         <DockPanel>
                             <TextBlock DockPanel.Dock="Left" Text="Barcode:" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"/>
                             <TextBlock DockPanel.Dock="Right" Text="{Binding ScanStatus}" VerticalAlignment="Center" FontSize="12" Foreground="#10B981" Margin="12,0,0,0"/>
                             <TextBox Text="{Binding BarcodeText, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Height="34" Padding="4,0">
+                                <i:Interaction.Behaviors>
+                                    <behaviors:AutoFocusBehavior />
+                                </i:Interaction.Behaviors>
                                 <TextBox.InputBindings>
                                     <KeyBinding Key="Enter" Command="{Binding ScanBarcodeCommand}" />
                                 </TextBox.InputBindings>
@@ -89,10 +94,10 @@
                         </DockPanel>
                     </Border>
 
-                    <DockPanel Margin="0,0,0,16">
-                        <Button DockPanel.Dock="Right" Content="Search" Command="{Binding SearchProductsCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
-                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" />
-                    </DockPanel>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
+                        <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="160" Margin="12,0,0,0" />
+                    </StackPanel>
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <ItemsControl ItemsSource="{Binding Products}">
                             <ItemsControl.ItemsPanel>
@@ -437,6 +442,7 @@
                                         <StackPanel Orientation="Horizontal">
                                             <Button Content="View" Command="{Binding DataContext.ViewSaleDetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
                                             <Button Content="Print" Command="{Binding DataContext.PrintReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="Refund" Command="{Binding DataContext.RefundSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
                                             <Button Content="Cancel" Command="{Binding DataContext.CancelSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
@@ -611,6 +617,126 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate DataType="{x:Type vm:PurchasesViewModel}">
+            <Grid Margin="24">
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="Purchase Orders" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
+                        <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="200" />
+                        <ComboBox ItemsSource="{Binding Suppliers}" SelectedValue="{Binding FilterSupplierId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="180" Margin="12,0,0,0" />
+                        <Button Content="Search" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="+ New PO" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                    </StackPanel>
+                    <DataGrid Grid.Row="2" ItemsSource="{Binding Purchases}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="PO #" Binding="{Binding PurchaseOrderNumber}" Width="140" />
+                            <DataGridTextColumn Header="Supplier" Binding="{Binding Supplier.Name}" Width="*" />
+                            <DataGridTextColumn Header="Items" Binding="{Binding PurchaseItems.Count}" Width="60" />
+                            <DataGridTextColumn Header="Total" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="Paid" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="Received" Width="80">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="IsReceived" StringFormat="{}{0}" />
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Date" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="130" />
+                            <DataGridTemplateColumn Header="Actions" Width="200">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Content="Receive" Command="{Binding DataContext.ReceivePurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="Cancel" Command="{Binding DataContext.CancelPurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                        </StackPanel>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Center">
+                        <Button Content="Previous" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <TextBlock Text="{Binding CurrentPage, StringFormat=Page {0}}" VerticalAlignment="Center" Margin="12,0" />
+                        <Button Content="Next" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                    </StackPanel>
+                </Grid>
+                <!-- Create PO Form -->
+                <Grid Visibility="{Binding ShowForm, Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
+                    <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                        <StackPanel MaxWidth="700">
+                            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Supplier" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <ComboBox ItemsSource="{Binding Suppliers}" SelectedValue="{Binding FormSupplierId}" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="0,0,0,12"/>
+                                    <TextBlock Text="Notes" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <TextBox Text="{Binding FormNotes}" AcceptsReturn="True" Height="60" TextWrapping="Wrap" Margin="0,0,0,12"/>
+                                    <TextBlock Text="Tax Amount" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <TextBox Text="{Binding FormTaxAmount}" Margin="0,0,0,12"/>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock Text="Items" Style="{StaticResource SectionHeaderStyle}" />
+                            <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <DockPanel Margin="0,0,0,12">
+                                        <Button DockPanel.Dock="Right" Content="Add" Command="{Binding SearchProductsForPoCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
+                                        <TextBox Text="{Binding ProductSearchText, UpdateSourceTrigger=PropertyChanged}" />
+                                    </DockPanel>
+                                    <ItemsControl ItemsSource="{Binding SearchProducts}" Margin="0,0,0,12">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Style="{StaticResource CardStyle}" Margin="4" Padding="8">
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding Name}" FontWeight="Medium" />
+                                                        <TextBlock Text="{Binding CostPrice, StringFormat=Cost: {0:N2}}" Foreground="#64748B" FontSize="12" />
+                                                        <Button Content="+" Command="{Binding DataContext.AddLineToPoCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="24" FontSize="12" Margin="0,4,0,0"/>
+                                                    </StackPanel>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                    <DataGrid ItemsSource="{Binding FormItems}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,0,0,12">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Product" Binding="{Binding ProductName}" Width="*" />
+                                            <DataGridTextColumn Header="Qty" Binding="{Binding Quantity}" Width="70" />
+                                            <DataGridTextColumn Header="Unit Cost" Binding="{Binding UnitCost, StringFormat={}{0:N2}}" Width="90" />
+                                            <DataGridTextColumn Header="Total" Binding="{Binding LineTotal, StringFormat={}{0:N2}}" Width="100" />
+                                            <DataGridTemplateColumn Header="" Width="50">
+                                                <DataGridTemplateColumn.CellTemplate>
+                                                    <DataTemplate>
+                                                        <Button Content="X" Command="{Binding DataContext.RemoveLineFromPoCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Foreground="#EF4444" Background="Transparent" BorderThickness="0"/>
+                                                    </DataTemplate>
+                                                </DataGridTemplateColumn.CellTemplate>
+                                            </DataGridTemplateColumn>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                    <TextBlock Text="{Binding FormTotalAmount, StringFormat=Total: {0:N2}}" FontSize="18" FontWeight="Bold" Foreground="#2563EB" />
+                                </StackPanel>
+                            </Border>
+                            <StackPanel Orientation="Horizontal" Margin="0,8,0,24">
+                                <Button Content="Save Purchase Order" Command="{Binding SavePurchaseCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="180" Height="40"/>
+                                <Button Content="Cancel" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </ScrollViewer>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate DataType="{x:Type vm:SettingsViewModel}">
             <Grid Margin="24">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -700,6 +826,7 @@
                     <Button Content="Customers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
                     <Button Content="Suppliers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
                     <Button Content="Sales" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
+                    <Button Content="Purchases" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
                     <Button Content="Loans" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
                     <Button Content="Settings" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
                     <Separator Margin="8,0" Background="White" Opacity="0.5" Width="1" Height="20" />

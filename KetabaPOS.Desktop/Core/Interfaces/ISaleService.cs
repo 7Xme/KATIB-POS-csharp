@@ -6,5 +6,6 @@ public interface ISaleService
     Task<IEnumerable<Sale>> GetSalesAsync(DateTime? from = null, DateTime? to = null, int page = 1, int pageSize = 50);
     Task<Sale?> GetSaleByIdAsync(int id);
     Task<bool> CancelSaleAsync(int id);
+    Task<bool> RefundSaleAsync(int saleId, string? reason = null);
     Task<byte[]> GenerateReceiptAsync(int saleId);
 }

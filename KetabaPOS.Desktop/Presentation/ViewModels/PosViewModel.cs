@@ -31,6 +31,7 @@ public partial class PosViewModel : ObservableObject
     private readonly ISettingsService _settingsService;
     private decimal _taxRate = 0.15m;
     private int _lastSaleId;
+    private CancellationTokenSource? _searchCts;
 
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private string _barcodeText = string.Empty;
@@ -88,8 +89,23 @@ public partial class PosViewModel : ObservableObject
         finally { IsLoading = false; }
     }
 
+    partial void OnSearchTextChanged(string value) => DebounceSearch();
+    partial void OnSelectedCategoryIdChanged(int? value) => DebounceSearch();
+    private void DebounceSearch()
+    {
+        _searchCts?.Cancel();
+        _searchCts = new CancellationTokenSource();
+        _ = Task.Delay(300, _searchCts.Token).ContinueWith(_ => { if (!_searchCts.Token.IsCancellationRequested) _ = LoadProductsAsync(); }, TaskScheduler.FromCurrentSynchronizationContext());
+    }
     [RelayCommand]
     private async Task SearchProductsAsync() => await LoadProductsAsync();
+
+    [RelayCommand]
+    private async Task LoadCustomersAsync()
+    {
+        try { Customers = new ObservableCollection<Customer>(await _productService.GetCustomersAsync()); }
+        catch { /* ignore */ }
+    }
 
     [RelayCommand]
     private void AddToCart(Product product)
