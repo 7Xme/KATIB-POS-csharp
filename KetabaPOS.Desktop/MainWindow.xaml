@@ -147,7 +147,7 @@
                         </ItemsControl>
                         <Separator Margin="0,8" />
                         <TextBlock Text="{Binding Subtotal, StringFormat=Subtotal: {0:N2}}" />
-                        <TextBlock Text="{Binding TaxAmount, StringFormat=Tax (15%): {0:N2}}" />
+                        <TextBlock Text="{Binding TaxAmount, StringFormat=Tax: {0:N2}}" />
                         <TextBlock Text="{Binding DiscountAmount, StringFormat=Discount: {0:N2}}" />
                         <TextBlock Text="{Binding TotalAmount, StringFormat=Total: {0:N2}}" FontSize="24" FontWeight="Bold" Foreground="#2563EB" />
                         <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" Margin="0,16,0,0" />

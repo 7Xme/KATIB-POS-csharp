@@ -28,6 +28,8 @@ public partial class PosViewModel : ObservableObject
     private readonly IProductService _productService;
     private readonly ISaleService _saleService;
     private readonly IAuthService _authService;
+    private readonly ISettingsService _settingsService;
+    private decimal _taxRate = 0.15m;
     private int _lastSaleId;
 
     [ObservableProperty] private string _searchText = string.Empty;
@@ -50,11 +52,24 @@ public partial class PosViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Customer> _customers = new();
     [ObservableProperty] private bool _showReceiptButton;
 
-    public PosViewModel(IProductService productService, ISaleService saleService, IAuthService authService)
+    public PosViewModel(IProductService productService, ISaleService saleService, IAuthService authService, ISettingsService settingsService)
     {
         _productService = productService;
         _saleService = saleService;
         _authService = authService;
+        _settingsService = settingsService;
+        _ = LoadTaxRateAsync();
+    }
+
+    private async Task LoadTaxRateAsync()
+    {
+        try
+        {
+            var rateStr = await _settingsService.GetSettingAsync("tax_rate");
+            if (decimal.TryParse(rateStr, out var rate) && rate >= 0)
+                _taxRate = rate / 100m;
+        }
+        catch { /* use default 15% */ }
     }
 
     [RelayCommand]
@@ -253,7 +268,7 @@ public partial class PosViewModel : ObservableObject
     {
         Subtotal = CartItems.Sum(c => (decimal)((double)c.UnitPrice * c.Quantity));
         DiscountAmount = CartItems.Sum(c => c.DiscountAmount);
-        TaxAmount = Subtotal * 0.15m;
+        TaxAmount = Subtotal * _taxRate;
         TotalAmount = Subtotal + TaxAmount - DiscountAmount;
         ChangeAmount = System.Math.Max(0, PaidAmount - TotalAmount);
     }
