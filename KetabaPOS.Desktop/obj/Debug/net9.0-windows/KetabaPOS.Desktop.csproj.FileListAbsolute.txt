@@ -173,3 +173,9 @@ D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\bin\Debug\net9.0-windows\appsettings.json
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\Presentation\Views\CategoryDialog.baml
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\Presentation\Views\CategoryDialog.g.cs
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\KetabaPOS.Desktop.Resources.Strings.ar.resources
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\KetabaPOS.Desktop.csproj.GenerateResource.cache
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\KetabaPOS.Desktop.Resources.Strings.resources
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\ar\KetabaPOS.Desktop.resources.cs
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\obj\Debug\net9.0-windows\ar\KetabaPOS.Desktop.resources.dll
+D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\bin\Debug\net9.0-windows\ar\KetabaPOS.Desktop.resources.dll

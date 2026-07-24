@@ -3,7 +3,7 @@ using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Interfaces;
-using MaterialDesignThemes.Wpf;
+using KetabaPOS.Desktop.Infrastructure.Services;
 using Microsoft.Win32;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
@@ -98,15 +98,22 @@ public partial class SettingsViewModel : ObservableObject
             string? savedLogo = null;
             if (!string.IsNullOrEmpty(LogoPath) && File.Exists(LogoPath))
             {
-                var targetFolder = Path.Combine(
-                    Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
-                    "KetabaPOS", "Logos");
-                Directory.CreateDirectory(targetFolder);
-                var ext = Path.GetExtension(LogoPath);
-                var fileName = $"logo{ext}";
-                var dest = Path.Combine(targetFolder, fileName);
-                File.Copy(LogoPath, dest, true);
-                savedLogo = dest;
+                try
+                {
+                    var targetFolder = Path.Combine(
+                        Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),
+                        "KetabaPOS", "Logos");
+                    Directory.CreateDirectory(targetFolder);
+                    var ext = Path.GetExtension(LogoPath);
+                    var fileName = $"logo{ext}";
+                    var dest = Path.Combine(targetFolder, fileName);
+                    File.Copy(LogoPath, dest, true);
+                    savedLogo = dest;
+                }
+                catch (Exception logoEx)
+                {
+                    StatusMessage = $"Logo copy failed (settings saved): {logoEx.Message}";
+                }
             }
             if (savedLogo != null)
                 await _settingsService.SetSettingAsync("company_logo", savedLogo, "Receipt");
@@ -119,6 +126,7 @@ public partial class SettingsViewModel : ObservableObject
             await _settingsService.SetSettingAsync("language", Language, "Localization");
             await _settingsService.SetSettingAsync("theme", Theme, "Appearance");
 
+            TranslationSource.Instance.SwitchTo(Language);
             ApplyThemeAndLanguage();
 
             StatusMessage = "Settings saved successfully!";
@@ -129,16 +137,6 @@ public partial class SettingsViewModel : ObservableObject
 
     private void ApplyThemeAndLanguage()
     {
-        try
-        {
-            var isDark = Theme == "Dark";
-            var paletteHelper = new PaletteHelper();
-            var theme = paletteHelper.GetTheme();
-            theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
-            paletteHelper.SetTheme(theme);
-        }
-        catch { /* theme API may not be available in all environments */ }
-
         if (Application.Current.MainWindow is Window main)
         {
             main.FlowDirection = Language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;

@@ -7,6 +7,7 @@
                     xmlns:converters="clr-namespace:KetabaPOS.Desktop.Presentation.Converters"
                     xmlns:behaviors="clr-namespace:KetabaPOS.Desktop.Presentation.Behaviors"
                     xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
+                    xmlns:services="clr-namespace:KetabaPOS.Desktop.Infrastructure.Services"
         mc:Ignorable="d"
         Title="Ketaba POS - Point of Sale System" Height="800" Width="1200"
         WindowState="Maximized"
@@ -975,18 +976,18 @@
             <DockPanel>
                 <TextBlock Text="Ketaba POS" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="Dashboard" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
-                    <Button Content="POS" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
-                    <Button Content="Products" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Products" />
-                    <Button Content="Customers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
-                    <Button Content="Suppliers" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
-                    <Button Content="Sales" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
-                    <Button Content="Purchases" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
-                    <Button Content="Loans" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
-                    <Button Content="Users" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Users" />
-                    <Button Content="Settings" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavDashboard]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavPos]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavProducts]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Products" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavCustomers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSuppliers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSales]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavPurchases]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavLoans]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavUsers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Users" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSettings]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
                     <Separator Margin="8,0" Background="White" Opacity="0.5" Width="1" Height="20" />
-                    <Button Content="Logout" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavLogout]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />
                 </StackPanel>
             </DockPanel>
         </Border>

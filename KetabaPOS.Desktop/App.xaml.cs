@@ -1,4 +1,6 @@
-﻿using System.IO;
+﻿using System.Globalization;
+using System.IO;
+using System.Threading;
 using System.Windows;
 using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Infrastructure.Data;
@@ -13,6 +15,7 @@ namespace KetabaPOS.Desktop;
 public partial class App : Application
 {
     private ServiceProvider? _serviceProvider;
+    private static Mutex? _instanceMutex;
 
     public App()
     {
@@ -37,6 +40,17 @@ public partial class App : Application
         try
         {
             File.WriteAllText(logPath, $"Starting at {DateTime.Now:yyyy-MM-dd HH:mm:ss}\n");
+
+            // Prevent multiple instances using a named Mutex
+            _instanceMutex = new Mutex(true, "KetabaPOS_InstanceMutex", out var createdNew);
+            if (!createdNew)
+            {
+                var msg = "Ketaba POS is already running. Only one instance is allowed.";
+                File.AppendAllText(logPath, $"WARN: {msg}\n");
+                MessageBox.Show(msg, "Already Running", MessageBoxButton.OK, MessageBoxImage.Information);
+                Shutdown();
+                return;
+            }
 
             var dbFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "KetabaPOS");
             File.AppendAllText(logPath, $"DB folder: {dbFolder}\n");
@@ -84,6 +98,11 @@ public partial class App : Application
                 File.AppendAllText(logPath, "Database ensured\n");
                 DbSeeder.SeedAsync(context).GetAwaiter().GetResult();
                 File.AppendAllText(logPath, "Database seeded\n");
+
+                var langSetting = context.Settings.FirstOrDefault(s => s.Key == "language");
+                if (langSetting != null && langSetting.Value == "ar")
+                    TranslationSource.Instance.SwitchTo("ar");
+                File.AppendAllText(logPath, $"Culture set to: {CultureInfo.CurrentUICulture.Name}\n");
             }
 
             var mainWindow = new MainWindow(_serviceProvider.GetRequiredService<MainViewModel>());
@@ -105,6 +124,8 @@ public partial class App : Application
     protected override void OnExit(ExitEventArgs e)
     {
         _serviceProvider?.Dispose();
+        _instanceMutex?.ReleaseMutex();
+        _instanceMutex?.Dispose();
         base.OnExit(e);
     }
 }
