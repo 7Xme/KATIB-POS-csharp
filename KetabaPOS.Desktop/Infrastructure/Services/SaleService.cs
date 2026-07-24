@@ -16,8 +16,8 @@ public class SaleService : ISaleService
         using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            var invoiceCount = await _context.Sales.CountAsync();
-            sale.InvoiceNumber = $"INV-{DateTime.Now:yyyyMMdd}-{invoiceCount + 1:D4}";
+            var shortId = Guid.NewGuid().ToString("N")[..6].ToUpper();
+            sale.InvoiceNumber = $"INV-{DateTime.UtcNow:yyyyMMdd}-{shortId}";
             sale.CreatedAt = DateTime.UtcNow;
             sale.Status = SaleStatus.Completed;
             _context.Sales.Add(sale);
@@ -87,31 +87,41 @@ public class SaleService : ISaleService
         var sale = await _context.Sales.Include(s => s.SaleItems).FirstOrDefaultAsync(s => s.Id == id);
         if (sale == null || sale.Status == SaleStatus.Cancelled) return false;
 
-        sale.Status = SaleStatus.Cancelled;
-        sale.UpdatedAt = DateTime.UtcNow;
-
-        foreach (var item in sale.SaleItems)
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
         {
-            var product = await _context.Products.FindAsync(item.ProductId);
-            if (product != null)
-            {
-                var quantityBefore = product.StockQuantity;
-                product.StockQuantity += item.Quantity;
-                _context.InventoryTransactions.Add(new InventoryTransaction
-                {
-                    ProductId = item.ProductId,
-                    Type = TransactionType.Adjustment,
-                    QuantityChange = item.Quantity,
-                    QuantityBefore = quantityBefore,
-                    QuantityAfter = product.StockQuantity,
-                    ReferenceNumber = $"CANCEL-{sale.InvoiceNumber}",
-                    CreatedAt = DateTime.UtcNow
-                });
-            }
-        }
+            sale.Status = SaleStatus.Cancelled;
+            sale.UpdatedAt = DateTime.UtcNow;
 
-        await _context.SaveChangesAsync();
-        return true;
+            foreach (var item in sale.SaleItems)
+            {
+                var product = await _context.Products.FindAsync(item.ProductId);
+                if (product != null)
+                {
+                    var quantityBefore = product.StockQuantity;
+                    product.StockQuantity += item.Quantity;
+                    _context.InventoryTransactions.Add(new InventoryTransaction
+                    {
+                        ProductId = item.ProductId,
+                        Type = TransactionType.Adjustment,
+                        QuantityChange = item.Quantity,
+                        QuantityBefore = quantityBefore,
+                        QuantityAfter = product.StockQuantity,
+                        ReferenceNumber = $"CANCEL-{sale.InvoiceNumber}",
+                        CreatedAt = DateTime.UtcNow
+                    });
+                }
+            }
+
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
+            return true;
+        }
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
 
     public async Task<SalesSummary> GetSalesSummaryAsync(DateTime? from = null, DateTime? to = null)

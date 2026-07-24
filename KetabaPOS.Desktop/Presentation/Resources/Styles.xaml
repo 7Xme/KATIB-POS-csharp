@@ -80,4 +80,10 @@
         <Setter Property="Background" Value="#CBD5E1" />
         <Setter Property="Foreground" Value="#475569" />
     </Style>
+
+    <Style TargetType="DataGrid">
+        <Setter Property="VirtualizingPanel.VirtualizationMode" Value="Recycling" />
+        <Setter Property="ScrollViewer.IsDeferredScrollingEnabled" Value="True" />
+        <Setter Property="VirtualizingPanel.ScrollUnit" Value="Item" />
+    </Style>
 </ResourceDictionary>

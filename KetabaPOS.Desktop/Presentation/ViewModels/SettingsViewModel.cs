@@ -4,6 +4,7 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Infrastructure.Services;
+using MaterialDesignThemes.Wpf;
 using Microsoft.Win32;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
@@ -140,6 +141,18 @@ public partial class SettingsViewModel : ObservableObject
         if (Application.Current.MainWindow is Window main)
         {
             main.FlowDirection = Language == "ar" ? FlowDirection.RightToLeft : FlowDirection.LeftToRight;
+        }
+
+        try
+        {
+            var paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+            theme.SetBaseTheme(Theme == "Dark" ? BaseTheme.Dark : BaseTheme.Light);
+            paletteHelper.SetTheme(theme);
+        }
+        catch
+        {
+            // PaletteHelper unavailable — fall back to default theme
         }
     }
 

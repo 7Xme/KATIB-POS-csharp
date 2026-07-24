@@ -22,8 +22,8 @@ public class PurchaseService : IPurchaseService
         using var transaction = await _context.Database.BeginTransactionAsync();
         try
         {
-            var count = await _context.Purchases.CountAsync();
-            purchase.PurchaseOrderNumber = $"PO-{DateTime.Now:yyyyMMdd}-{count + 1:D4}";
+            var shortId = Guid.NewGuid().ToString("N")[..6].ToUpper();
+            purchase.PurchaseOrderNumber = $"PO-{DateTime.UtcNow:yyyyMMdd}-{shortId}";
             purchase.CreatedAt = DateTime.UtcNow;
             _context.Purchases.Add(purchase);
             await _context.SaveChangesAsync();
@@ -77,34 +77,44 @@ public class PurchaseService : IPurchaseService
     }
     public async Task CancelPurchaseAsync(int id)
     {
-        var purchase = await _context.Purchases.FindAsync(id);
+        var purchase = await _context.Purchases.Include(p => p.PurchaseItems).FirstOrDefaultAsync(p => p.Id == id);
         if (purchase == null) return;
-        if (purchase.IsReceived)
+
+        using var transaction = await _context.Database.BeginTransactionAsync();
+        try
         {
-            var items = await _context.PurchaseItems.Where(pi => pi.PurchaseId == id).ToListAsync();
-            foreach (var item in items)
+            if (purchase.IsReceived)
             {
-                var product = await _context.Products.FindAsync(item.ProductId);
-                if (product != null)
+                foreach (var item in purchase.PurchaseItems)
                 {
-                    var qtyBefore = product.StockQuantity;
-                    product.StockQuantity -= item.Quantity;
-                    _context.InventoryTransactions.Add(new InventoryTransaction
+                    var product = await _context.Products.FindAsync(item.ProductId);
+                    if (product != null)
                     {
-                        ProductId = item.ProductId,
-                        Type = TransactionType.Adjustment,
-                        QuantityChange = -item.Quantity,
-                        QuantityBefore = qtyBefore,
-                        QuantityAfter = product.StockQuantity,
-                        ReferenceNumber = $"CANCEL-{purchase.PurchaseOrderNumber}",
-                        CreatedAt = DateTime.UtcNow
-                    });
+                        var qtyBefore = product.StockQuantity;
+                        product.StockQuantity -= item.Quantity;
+                        _context.InventoryTransactions.Add(new InventoryTransaction
+                        {
+                            ProductId = item.ProductId,
+                            Type = TransactionType.Adjustment,
+                            QuantityChange = -item.Quantity,
+                            QuantityBefore = qtyBefore,
+                            QuantityAfter = product.StockQuantity,
+                            ReferenceNumber = $"CANCEL-{purchase.PurchaseOrderNumber}",
+                            CreatedAt = DateTime.UtcNow
+                        });
+                    }
                 }
             }
+            purchase.IsDeleted = true;
+            purchase.UpdatedAt = DateTime.UtcNow;
+            await _context.SaveChangesAsync();
+            await transaction.CommitAsync();
         }
-        purchase.IsDeleted = true;
-        purchase.UpdatedAt = DateTime.UtcNow;
-        await _context.SaveChangesAsync();
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
     public async Task<int> GetTotalCountAsync(string? search = null, int? supplierId = null, bool? isReceived = null)
     {
