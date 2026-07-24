@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("KetabaPOS.Desktop")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+7163692c136dcb9cf48b58e7fd6038677e84ad8b")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2b8dd48b6ecc665cf7120653d935d6a67fa075c4")]
 [assembly: System.Reflection.AssemblyProductAttribute("KetabaPOS.Desktop")]
 [assembly: System.Reflection.AssemblyTitleAttribute("KetabaPOS.Desktop")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

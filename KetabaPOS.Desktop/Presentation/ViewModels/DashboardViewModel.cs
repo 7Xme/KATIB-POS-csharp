@@ -1,12 +1,8 @@
-using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Interfaces;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
-
-public record ChartDataPoint(string Label, decimal Value);
-public record RecentActivity(string Description, DateTime Timestamp);
 
 public partial class DashboardViewModel : ObservableObject
 {

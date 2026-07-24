@@ -21,6 +21,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <TextBlock Text="Dashboard" Style="{StaticResource PageHeaderStyle}" />
+                <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" Margin="0,-16,0,16" />
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <UniformGrid Columns="4" Margin="0,0,0,24">
@@ -154,6 +155,7 @@
                         <Button Content="Complete Sale" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
                         <Button Content="Print Receipt" Command="{Binding PrintReceiptCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,8,0,0" Height="36" Background="#10B981"/>
                         <Button Content="Clear Cart" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
+                        <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,8,0,0" TextWrapping="Wrap" FontSize="11"/>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -171,12 +173,14 @@
                     </Grid.RowDefinitions>
 
                     <TextBlock Text="Products" Style="{StaticResource PageHeaderStyle}" Grid.Row="0" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,-20,0,4" Grid.Row="0" />
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
                         <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="180" Margin="12,0,0,0" />
                         <Button Content="Search" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
                         <Button Content="+ Add Product" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                        <Button Content="Categories" Command="{Binding ManageCategoriesCommand}" Style="{StaticResource ActionButtonStyle}" Margin="12,0,0,0" Background="#8B5CF6" Foreground="White"/>
                     </StackPanel>
 
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
@@ -288,7 +292,7 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Customers" Style="{StaticResource PageHeaderStyle}" />
-                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
+                    <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,4">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
                         <Button Content="Search" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
                         <Button Content="+ Add Customer" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
@@ -412,6 +416,7 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <TextBlock Text="Sales History" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
                         <DatePicker SelectedDate="{Binding FromDate}" Width="140" />
                         <DatePicker SelectedDate="{Binding ToDate}" Width="140" Margin="12,0,0,0" />

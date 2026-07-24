@@ -5,6 +5,8 @@ using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Interfaces;
 using KetabaPOS.Desktop.Core.Models;
+using KetabaPOS.Desktop.Infrastructure.Data;
+using KetabaPOS.Desktop.Presentation.Views;
 using Microsoft.Win32;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
@@ -12,6 +14,7 @@ namespace KetabaPOS.Desktop.Presentation.ViewModels;
 public partial class ProductsViewModel : ObservableObject
 {
     private readonly IProductService _productService;
+    private readonly AppDbContext _context;
 
     [ObservableProperty] private ObservableCollection<Product> _products = new();
     [ObservableProperty] private ObservableCollection<Category> _categories = new();
@@ -44,7 +47,14 @@ public partial class ProductsViewModel : ObservableObject
     [ObservableProperty] private string? _formImagePath;
     [ObservableProperty] private string _formImagePreviewPath = string.Empty;
 
-    public ProductsViewModel(IProductService productService) { _productService = productService; }
+    public ProductsViewModel(IProductService productService, AppDbContext context) { _productService = productService; _context = context; }
+
+    [RelayCommand] private void ManageCategories()
+    {
+        var dialog = new CategoryDialog(_context) { Owner = Application.Current.MainWindow };
+        dialog.ShowDialog();
+        _ = LoadCategoriesAsync();
+    }
 
     [RelayCommand]
     private async Task LoadProductsAsync()
