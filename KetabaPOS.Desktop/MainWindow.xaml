@@ -15,6 +15,7 @@
         <converters:ImagePathConverter x:Key="ImagePathConverter" />
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <converters:EnumToBoolConverter x:Key="EnumToBoolConverter" />
+        <converters:ChartBarConverter x:Key="ChartBarConverter" />
 
         <DataTemplate DataType="{x:Type vm:DashboardViewModel}">
             <Grid Margin="24">
