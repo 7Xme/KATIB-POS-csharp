@@ -14,6 +14,7 @@ using WpfMedia = System.Windows.Media;
 using WpfControls = System.Windows.Controls;
 using WpfSize = System.Windows.Size;
 using WpfHA = System.Windows.HorizontalAlignment;
+using WpfVA = System.Windows.VerticalAlignment;
 
 namespace KetabaPOS.Desktop.Infrastructure.Services;
 
@@ -23,11 +24,10 @@ public class ReceiptService : IReceiptService
     private Dictionary<string, string> _settings = new();
 
     private static readonly WpfMedia.Color PrimaryBlue = WpfMedia.Color.FromRgb(37, 99, 235);
-    private static readonly WpfMedia.Color LightGray = WpfMedia.Color.FromRgb(248, 250, 252);
+    private static readonly WpfMedia.Color LightGrayBg = WpfMedia.Color.FromRgb(248, 250, 252);
     private static readonly WpfMedia.Color BorderGray = WpfMedia.Color.FromRgb(226, 232, 240);
     private static readonly WpfMedia.Color DarkText = WpfMedia.Color.FromRgb(30, 41, 59);
     private static readonly WpfMedia.Color MutedText = WpfMedia.Color.FromRgb(100, 116, 139);
-    private static readonly WpfMedia.Color SuccessGreen = WpfMedia.Color.FromRgb(16, 185, 129);
 
     public ReceiptService(AppDbContext context) { _context = context; }
 
@@ -58,76 +58,40 @@ public class ReceiptService : IReceiptService
         pageContent.Child = fixedPage;
         doc.Pages.Add(pageContent);
 
-        var canvas = new WpfControls.Canvas();
-        fixedPage.Children.Add(canvas);
-
-        double y = 40;
-
-        // --- Header: Logo + Company Info ---
-        var headerBorder = new Border
+        var stack = new StackPanel
         {
-            Background = new WpfMedia.SolidColorBrush(PrimaryBlue),
-            Padding = new Thickness(40, 24, 40, 24),
-            Child = CreateHeaderContent(sale)
+            Margin = new Thickness(0, 24, 0, 24),
+            Background = new WpfMedia.SolidColorBrush(WpfMedia.Colors.White)
         };
-        headerBorder.Measure(new WpfSize(794, double.PositiveInfinity));
-        headerBorder.Arrange(new Rect(0, y, 794, headerBorder.DesiredSize.Height));
-        canvas.Children.Add(headerBorder);
-        y += headerBorder.DesiredSize.Height + 20;
+        fixedPage.Children.Add(stack);
 
-        // --- Receipt Title ---
-        var titleBlock = new TextBlock
+        stack.Children.Add(CreateHeaderBorder(sale));
+
+        stack.Children.Add(new TextBlock
         {
             Text = "RECEIPT / INVOICE",
-            FontSize = 26, FontWeight = FontWeights.Bold,
+            FontSize = 24, FontWeight = FontWeights.Bold,
             Foreground = new WpfMedia.SolidColorBrush(DarkText),
             TextAlignment = TextAlignment.Center,
-            Margin = new Thickness(0, 0, 0, 4)
-        };
-        titleBlock.Measure(new WpfSize(794, double.PositiveInfinity));
-        titleBlock.Arrange(new Rect(0, y, 794, titleBlock.DesiredSize.Height));
-        canvas.Children.Add(titleBlock);
-        y += titleBlock.DesiredSize.Height + 4;
+            Margin = new Thickness(40, 20, 40, 4)
+        });
 
-        y = DrawDivider(canvas, y);
+        stack.Children.Add(CreateDivider(40));
 
-        // --- Invoice Info ---
-        y = DrawInfoSection(canvas, y, sale);
+        stack.Children.Add(CreateInfoSection(sale));
 
-        y = DrawDivider(canvas, y);
+        stack.Children.Add(CreateDivider(20));
 
-        // --- Items Table Header ---
-        y = DrawTableHeader(canvas, y, "Item", "Qty", "Price", "Disc.", "Total");
+        stack.Children.Add(CreateTableSection(sale));
 
-        // --- Items ---
-        foreach (var item in sale.SaleItems)
-        {
-            y = DrawTableRow(canvas, y,
-                item.Product?.Name ?? "Item",
-                item.Quantity.ToString(),
-                item.UnitPrice.ToString("N2"),
-                item.DiscountAmount > 0 ? item.DiscountAmount.ToString("N2") : "-",
-                item.TotalPrice.ToString("N2"));
-        }
+        stack.Children.Add(CreateDivider(20));
 
-        y = DrawDivider(canvas, y);
+        stack.Children.Add(CreateTotalsSection(sale));
 
-        // --- Totals ---
-        y = DrawTotalLine(canvas, y, "Subtotal:", sale.Subtotal, false);
-        y = DrawTotalLine(canvas, y, "Tax:", sale.TaxAmount, false);
-        if (sale.DiscountAmount > 0)
-            y = DrawTotalLine(canvas, y, "Discount:", -sale.DiscountAmount, false);
-        y = DrawDivider(canvas, y);
-        y = DrawTotalLine(canvas, y, "TOTAL:", sale.TotalAmount, true);
-        y = DrawTotalLine(canvas, y, "Paid:", sale.PaidAmount, false);
-        y = DrawTotalLine(canvas, y, "Change:", sale.ChangeAmount, false);
+        stack.Children.Add(CreateDivider(16));
 
-        y += 16;
-
-        // --- Footer ---
-        y = DrawDivider(canvas, y);
         var footer = Setting("receipt_footer", "Thank you for your purchase!");
-        var footerBlock = new TextBlock
+        stack.Children.Add(new TextBlock
         {
             Text = footer,
             FontSize = 14,
@@ -135,23 +99,16 @@ public class ReceiptService : IReceiptService
             TextAlignment = TextAlignment.Center,
             FontStyle = FontStyles.Italic,
             Margin = new Thickness(40, 12, 40, 0)
-        };
-        footerBlock.Measure(new WpfSize(714, double.PositiveInfinity));
-        footerBlock.Arrange(new Rect(0, y, 794, footerBlock.DesiredSize.Height));
-        canvas.Children.Add(footerBlock);
-        y += footerBlock.DesiredSize.Height + 40;
+        });
 
-        // Bottom branding
-        var brandBlock = new TextBlock
+        stack.Children.Add(new TextBlock
         {
             Text = $"Generated by Ketaba POS | {DateTime.Now:yyyy-MM-dd HH:mm}",
             FontSize = 10,
             Foreground = new WpfMedia.SolidColorBrush(MutedText),
-            TextAlignment = TextAlignment.Center
-        };
-        brandBlock.Measure(new WpfSize(794, double.PositiveInfinity));
-        brandBlock.Arrange(new Rect(0, y, 794, brandBlock.DesiredSize.Height));
-        canvas.Children.Add(brandBlock);
+            TextAlignment = TextAlignment.Center,
+            Margin = new Thickness(40, 20, 40, 0)
+        });
 
         return doc;
     }
@@ -191,13 +148,13 @@ public class ReceiptService : IReceiptService
         dlg.PrintDocument(doc.DocumentPaginator, $"Receipt-{sale.InvoiceNumber}");
     }
 
-    // --- WPF content helpers ---
+    // ========== WPF layout helpers using auto-stacking StackPanel ==========
 
-    private WpfControls.Grid CreateHeaderContent(Sale sale)
+    private Border CreateHeaderBorder(Sale sale)
     {
-        var grid = new WpfControls.Grid();
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        var inner = new WpfControls.Grid();
+        inner.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        inner.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
 
         var logoPath = Setting("company_logo");
         if (!string.IsNullOrEmpty(logoPath) && File.Exists(logoPath))
@@ -211,14 +168,14 @@ public class ReceiptService : IReceiptService
                     Stretch = WpfMedia.Stretch.Uniform
                 };
                 Grid.SetColumn(img, 0);
-                grid.Children.Add(img);
+                inner.Children.Add(img);
             }
             catch { }
         }
 
-        var stack = new StackPanel { Margin = new Thickness(16, 0, 0, 0) };
-        Grid.SetColumn(stack, 1);
-        stack.Children.Add(new TextBlock
+        var infoStack = new StackPanel { Margin = new Thickness(16, 0, 0, 0) };
+        Grid.SetColumn(infoStack, 1);
+        infoStack.Children.Add(new TextBlock
         {
             Text = Setting("company_name", "KETABA POS"),
             FontSize = 22, FontWeight = FontWeights.Bold,
@@ -226,153 +183,191 @@ public class ReceiptService : IReceiptService
         });
         var addr = Setting("company_address");
         if (!string.IsNullOrEmpty(addr))
-            stack.Children.Add(new TextBlock
+            infoStack.Children.Add(new TextBlock
             { Text = addr, FontSize = 12, Foreground = new WpfMedia.SolidColorBrush(WpfMedia.Color.FromRgb(191, 219, 254)) });
         var phone = Setting("company_phone");
         if (!string.IsNullOrEmpty(phone))
-            stack.Children.Add(new TextBlock
+            infoStack.Children.Add(new TextBlock
             { Text = phone, FontSize = 12, Foreground = new WpfMedia.SolidColorBrush(WpfMedia.Color.FromRgb(191, 219, 254)) });
-        grid.Children.Add(stack);
-        return grid;
+        inner.Children.Add(infoStack);
+
+        return new Border
+        {
+            Background = new WpfMedia.SolidColorBrush(PrimaryBlue),
+            Padding = new Thickness(40, 24, 40, 24),
+            Child = inner
+        };
     }
 
-    private double DrawInfoSection(WpfControls.Canvas canvas, double y, Sale sale)
+    private Border CreateDivider(double margin)
+    {
+        return new Border
+        {
+            Height = 1,
+            Background = new WpfMedia.SolidColorBrush(BorderGray),
+            Margin = new Thickness(40, margin, 40, margin)
+        };
+    }
+
+    private WpfControls.Grid CreateInfoSection(Sale sale)
     {
         var grid = new WpfControls.Grid { Margin = new Thickness(40, 0, 40, 0) };
         grid.ColumnDefinitions.Add(new ColumnDefinition());
         grid.ColumnDefinitions.Add(new ColumnDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
-        grid.RowDefinitions.Add(new RowDefinition());
+        for (int i = 0; i < 3; i++)
+            grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
 
-        AddInfoRow(grid, 0, 0, "Invoice #:", sale.InvoiceNumber);
-        AddInfoRow(grid, 0, 1, "Date:", sale.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
-        AddInfoRow(grid, 0, 2, "Cashier:", sale.User?.DisplayName ?? "N/A");
-        AddInfoRow(grid, 1, 0, "Payment:", sale.PaymentMethod.ToString());
-        AddInfoRow(grid, 1, 1, "Customer:", sale.Customer?.Name ?? "Walk-in");
-        AddInfoRow(grid, 1, 2, "Status:", sale.Status.ToString());
-
-        grid.Measure(new WpfSize(714, double.PositiveInfinity));
-        grid.Arrange(new Rect(0, y, 794, grid.DesiredSize.Height));
-        canvas.Children.Add(grid);
-        return y + grid.DesiredSize.Height + 12;
+        AddInfoCell(grid, 0, 0, "Invoice #:", sale.InvoiceNumber);
+        AddInfoCell(grid, 0, 1, "Date:", sale.CreatedAt.ToString("yyyy-MM-dd HH:mm"));
+        AddInfoCell(grid, 0, 2, "Cashier:", sale.User?.DisplayName ?? "N/A");
+        AddInfoCell(grid, 1, 0, "Payment:", sale.PaymentMethod.ToString());
+        AddInfoCell(grid, 1, 1, "Customer:", sale.Customer?.Name ?? "Walk-in");
+        AddInfoCell(grid, 1, 2, "Status:", sale.Status.ToString());
+        return grid;
     }
 
-    private void AddInfoRow(WpfControls.Grid grid, int col, int row, string label, string value)
+    private static void AddInfoCell(WpfControls.Grid grid, int col, int row, string label, string value)
     {
-        var lbl = new TextBlock
+        var panel = new StackPanel { Orientation = Orientation.Horizontal, Margin = new Thickness(0, 2, 0, 2) };
+        panel.Children.Add(new TextBlock
         {
             Text = label, FontSize = 11, FontWeight = FontWeights.SemiBold,
             Foreground = new WpfMedia.SolidColorBrush(MutedText)
-        };
-        Grid.SetColumn(lbl, col * 2);
-        Grid.SetRow(lbl, row);
-        grid.Children.Add(lbl);
-
-        var val = new TextBlock
+        });
+        panel.Children.Add(new TextBlock
         {
-            Text = value, FontSize = 11,
-            Foreground = new WpfMedia.SolidColorBrush(DarkText),
-            Margin = new Thickness(8, 0, 0, 4)
-        };
-        Grid.SetColumn(val, col * 2 + 1);
-        Grid.SetRow(val, row);
-        grid.Children.Add(val);
+            Text = " " + value, FontSize = 11,
+            Foreground = new WpfMedia.SolidColorBrush(DarkText)
+        });
+        Grid.SetColumn(panel, col);
+        Grid.SetRow(panel, row);
+        grid.Children.Add(panel);
     }
 
-    private double DrawDivider(WpfControls.Canvas canvas, double y)
+    private StackPanel CreateTableSection(Sale sale)
     {
-        var line = new System.Windows.Shapes.Rectangle
-        {
-            Height = 1,
-            Fill = new WpfMedia.SolidColorBrush(BorderGray),
-            Width = 714,
-            Margin = new Thickness(40, 0, 40, 0)
-        };
-        Canvas.SetLeft(line, 0);
-        Canvas.SetTop(line, y);
-        canvas.Children.Add(line);
-        return y + 8;
-    }
+        var outer = new StackPanel { Margin = new Thickness(40, 0, 40, 0) };
 
-    private double DrawTableHeader(WpfControls.Canvas canvas, double y, params string[] cols)
-    {
-        var headerGrid = new WpfControls.Grid();
+        var headerGrid = new WpfControls.Grid { Background = new WpfMedia.SolidColorBrush(PrimaryBlue) };
         headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        for (int i = 1; i < cols.Length; i++)
-            headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(56) });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        headerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
 
-        for (int i = 0; i < cols.Length; i++)
+        string[] headers = ["Item", "Qty", "Price", "Disc.", "Total"];
+        for (int i = 0; i < headers.Length; i++)
         {
+            var align = i == 0 ? TextAlignment.Left : TextAlignment.Right;
             var tb = new TextBlock
             {
-                Text = cols[i],
-                FontSize = 11, FontWeight = FontWeights.Bold,
+                Text = headers[i], FontSize = 11, FontWeight = FontWeights.Bold,
                 Foreground = WpfMedia.Brushes.White,
-                TextAlignment = i == 0 ? TextAlignment.Left : TextAlignment.Right,
-                Padding = new Thickness(i > 0 ? 8 : 0, 6, 0, 6)
+                TextAlignment = align, Padding = new Thickness(i > 0 ? 6 : 0, 6, 6, 6)
             };
             Grid.SetColumn(tb, i);
             headerGrid.Children.Add(tb);
         }
+        outer.Children.Add(headerGrid);
 
-        var border = new Border
+        if (sale.SaleItems.Count == 0)
         {
-            Background = new WpfMedia.SolidColorBrush(PrimaryBlue),
-            Padding = new Thickness(40, 0, 40, 0),
-            Child = headerGrid
-        };
-
-        border.Measure(new WpfSize(794, double.PositiveInfinity));
-        border.Arrange(new Rect(0, y, 794, border.DesiredSize.Height));
-        canvas.Children.Add(border);
-        return y + border.DesiredSize.Height;
-    }
-
-    private double DrawTableRow(WpfControls.Canvas canvas, double y, params string[] cols)
-    {
-        var grid = new WpfControls.Grid { Margin = new Thickness(40, 0, 40, 0) };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        for (int i = 1; i < cols.Length; i++)
-            grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
-
-        for (int i = 0; i < cols.Length; i++)
-        {
-            var tb = new TextBlock
+            outer.Children.Add(new TextBlock
             {
-                Text = cols[i],
-                FontSize = 11,
-                Foreground = new WpfMedia.SolidColorBrush(DarkText),
-                TextAlignment = i == 0 ? TextAlignment.Left : TextAlignment.Right,
-                Margin = new Thickness(i > 0 ? 8 : 0, 4, 0, 4)
-            };
-            Grid.SetColumn(tb, i);
-            grid.Children.Add(tb);
+                Text = "No items",
+                FontSize = 11, Foreground = new WpfMedia.SolidColorBrush(MutedText),
+                Padding = new Thickness(0, 8, 0, 8), TextAlignment = TextAlignment.Center
+            });
+            return outer;
         }
 
-        grid.Measure(new WpfSize(714, double.PositiveInfinity));
-        grid.Arrange(new Rect(0, y, 794, grid.DesiredSize.Height));
-        canvas.Children.Add(grid);
-
-        var line = new System.Windows.Shapes.Rectangle
+        bool alternate = false;
+        foreach (var item in sale.SaleItems)
         {
-            Height = 0.5,
-            Fill = new WpfMedia.SolidColorBrush(BorderGray),
-            Width = 714,
-            Margin = new Thickness(40, 0, 40, 0)
-        };
-        Canvas.SetLeft(line, 0);
-        Canvas.SetTop(line, y + grid.DesiredSize.Height);
-        canvas.Children.Add(line);
+            var rowGrid = new WpfControls.Grid();
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(56) });
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+            rowGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
 
-        return y + grid.DesiredSize.Height + 4;
+            if (alternate)
+                rowGrid.Background = new WpfMedia.SolidColorBrush(LightGrayBg);
+            alternate = !alternate;
+
+            string[] values = [
+                item.Product?.Name ?? "Item",
+                item.Quantity.ToString(),
+                item.UnitPrice.ToString("N2"),
+                item.DiscountAmount > 0 ? item.DiscountAmount.ToString("N2") : "-",
+                item.TotalPrice.ToString("N2")
+            ];
+
+            for (int i = 0; i < values.Length; i++)
+            {
+                var align = i == 0 ? TextAlignment.Left : TextAlignment.Right;
+                var tb = new TextBlock
+                {
+                    Text = values[i], FontSize = 11,
+                    Foreground = new WpfMedia.SolidColorBrush(DarkText),
+                    TextAlignment = align,
+                    Padding = new Thickness(i > 0 ? 6 : 0, 4, 6, 4)
+                };
+                if (i == values.Length - 1)
+                    tb.FontWeight = FontWeights.SemiBold;
+                Grid.SetColumn(tb, i);
+                rowGrid.Children.Add(tb);
+            }
+
+            rowGrid.Children.Add(new Border
+            {
+                Height = 0.5,
+                Background = new WpfMedia.SolidColorBrush(BorderGray),
+                VerticalAlignment = WpfVA.Bottom
+            });
+
+            outer.Children.Add(rowGrid);
+        }
+
+        return outer;
     }
 
-    private double DrawTotalLine(WpfControls.Canvas canvas, double y, string label, decimal value, bool bold)
+    private StackPanel CreateTotalsSection(Sale sale)
     {
-        var grid = new WpfControls.Grid { Margin = new Thickness(40, 2, 40, 2) };
+        var outer = new StackPanel { Margin = new Thickness(40, 0, 40, 0) };
+
+        var alignGrid = new WpfControls.Grid();
+        alignGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        alignGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(220) });
+        var panel = new StackPanel();
+        Grid.SetColumn(panel, 1);
+        alignGrid.Children.Add(panel);
+
+        AddTotalRow(panel, "Subtotal:", sale.Subtotal, false);
+        AddTotalRow(panel, "Tax:", sale.TaxAmount, false);
+        if (sale.DiscountAmount > 0)
+            AddTotalRow(panel, "Discount:", -sale.DiscountAmount, false);
+
+        panel.Children.Add(new Border
+        {
+            Height = 1,
+            Background = new WpfMedia.SolidColorBrush(BorderGray),
+            Margin = new Thickness(0, 4, 0, 4)
+        });
+
+        AddTotalRow(panel, "TOTAL:", sale.TotalAmount, true);
+        AddTotalRow(panel, "Paid:", sale.PaidAmount, false);
+        AddTotalRow(panel, "Change:", sale.ChangeAmount, false);
+
+        outer.Children.Add(alignGrid);
+        return outer;
+    }
+
+    private static void AddTotalRow(StackPanel parent, string label, decimal value, bool bold)
+    {
+        var grid = new WpfControls.Grid();
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(120) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(100) });
 
         var lbl = new TextBlock
         {
@@ -380,7 +375,8 @@ public class ReceiptService : IReceiptService
             FontSize = bold ? 16 : 12,
             FontWeight = bold ? FontWeights.Bold : FontWeights.Medium,
             Foreground = new WpfMedia.SolidColorBrush(bold ? PrimaryBlue : DarkText),
-            HorizontalAlignment = WpfHA.Right
+            HorizontalAlignment = WpfHA.Right,
+            Margin = new Thickness(0, 2, 0, 2)
         };
         Grid.SetColumn(lbl, 0);
         grid.Children.Add(lbl);
@@ -392,18 +388,15 @@ public class ReceiptService : IReceiptService
             FontWeight = bold ? FontWeights.Bold : FontWeights.Medium,
             Foreground = new WpfMedia.SolidColorBrush(bold ? PrimaryBlue : DarkText),
             TextAlignment = TextAlignment.Right,
-            Margin = new Thickness(8, 0, 0, 0)
+            Margin = new Thickness(8, 2, 0, 2)
         };
         Grid.SetColumn(val, 1);
         grid.Children.Add(val);
 
-        grid.Measure(new WpfSize(714, double.PositiveInfinity));
-        grid.Arrange(new Rect(0, y, 794, grid.DesiredSize.Height));
-        canvas.Children.Add(grid);
-        return y + grid.DesiredSize.Height;
+        parent.Children.Add(grid);
     }
 
-    // --- PDF helpers ---
+    // ========== PDF helpers (QuestPDF — already correct) ==========
 
     private void ComposePdfHeader(IContainer container, Sale sale)
     {
@@ -501,19 +494,29 @@ public class ReceiptService : IReceiptService
 
             col.Item().AlignRight().Width(250).Column(c =>
             {
-                c.Item().Row(r => { r.RelativeItem().Text("Subtotal:").SemiBold(); r.ConstantItem(80).Text(sale.Subtotal.ToString("N2")).AlignRight(); });
-                c.Item().Row(r => { r.RelativeItem().Text("Tax:").SemiBold(); r.ConstantItem(80).Text(sale.TaxAmount.ToString("N2")).AlignRight(); });
+                AddPdfTotalRow(c, "Subtotal:", sale.Subtotal, false);
+                AddPdfTotalRow(c, "Tax:", sale.TaxAmount, false);
                 if (sale.DiscountAmount > 0)
-                    c.Item().Row(r => { r.RelativeItem().Text("Discount:").SemiBold(); r.ConstantItem(80).Text($"(-{sale.DiscountAmount:N2})").AlignRight(); });
+                    AddPdfTotalRow(c, "Discount:", -sale.DiscountAmount, false);
                 c.Item().PaddingVertical(2).LineHorizontal(1);
-                c.Item().Row(r => { r.RelativeItem().Text("TOTAL:").Bold().FontSize(14); r.ConstantItem(80).Text(sale.TotalAmount.ToString("N2")).AlignRight().Bold().FontSize(14); });
-                c.Item().Row(r => { r.RelativeItem().Text("Paid:"); r.ConstantItem(80).Text(sale.PaidAmount.ToString("N2")).AlignRight(); });
-                c.Item().Row(r => { r.RelativeItem().Text("Change:"); r.ConstantItem(80).Text(sale.ChangeAmount.ToString("N2")).AlignRight(); });
+                AddPdfTotalRow(c, "TOTAL:", sale.TotalAmount, true);
+                AddPdfTotalRow(c, "Paid:", sale.PaidAmount, false);
+                AddPdfTotalRow(c, "Change:", sale.ChangeAmount, false);
             });
 
             var footer = Setting("receipt_footer", "Thank you for your purchase!");
             col.Item().PaddingTop(16).LineHorizontal(1).LineColor(Colors.Grey.Lighten2);
             col.Item().PaddingTop(8).Text(footer).FontSize(12).Italic().AlignCenter().FontColor(Colors.Grey.Medium);
+        });
+    }
+
+    private static void AddPdfTotalRow(ColumnDescriptor c, string label, decimal value, bool bold)
+    {
+        c.Item().Row(r =>
+        {
+            r.RelativeItem().Text(label).SemiBold().FontSize(bold ? 14 : 11);
+            var cell = r.ConstantItem(80).AlignRight().Text(value.ToString("N2")).FontSize(bold ? 14 : 11);
+            if (bold) cell.Bold();
         });
     }
 }
