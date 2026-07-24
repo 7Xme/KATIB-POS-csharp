@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET9_0;NETCOREAPP;WINDOWS;WINDOWS7_0;NET5_0_OR_GREATER;NET6_0_OR_GREATER;NET7_0_OR_GREATER;NET8_0_OR_GREATER;NET9_0_OR_GREATER;NETCOREAPP3_0_OR_GREATER;NETCOREAPP3_1_OR_GREATER;WINDOWS7_0_OR_GREATER
 D:\githubprojects\MKTABA TOOLS ALL IN ONE\KATIB POS csharp\KetabaPOS.Desktop\App.xaml
-41870434843
+5-1539582724
 
-64-1076956735
-243-275006351
-MainWindow.xaml;Presentation\Controls\KpiCard.xaml;Presentation\Resources\Styles.xaml;Presentation\Views\CategoryDialog.xaml;
+67194381501
+244-1810701243
+MainWindow.xaml;Presentation\Controls\KpiCard.xaml;Presentation\Resources\Styles.xaml;Presentation\Views\CategoryDialog.xaml;Presentation\Views\ReceiptPreviewWindow.xaml;
 
 False
 

@@ -12,6 +12,7 @@ namespace KetabaPOS.Desktop.Presentation.ViewModels;
 public partial class SalesViewModel : ObservableObject
 {
     private readonly ISaleService _saleService;
+    private readonly IReceiptService _receiptService;
 
     [ObservableProperty] private ObservableCollection<Sale> _sales = new();
     [ObservableProperty] private DateTime? _fromDate;
@@ -33,7 +34,7 @@ public partial class SalesViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<SaleItem> _saleItems = new();
     [ObservableProperty] private bool _showDetail;
 
-    public SalesViewModel(ISaleService saleService) { _saleService = saleService; }
+    public SalesViewModel(ISaleService saleService, IReceiptService receiptService) { _saleService = saleService; _receiptService = receiptService; }
 
     [RelayCommand]
     private async Task LoadSalesAsync()
@@ -141,36 +142,13 @@ public partial class SalesViewModel : ObservableObject
         IsLoading = true;
         try
         {
-            var receiptBytes = await _saleService.GenerateReceiptAsync(sale.Id);
-            var receiptText = System.Text.Encoding.UTF8.GetString(receiptBytes);
-
-            var textBox = new TextBox
+            var fullSale = await _saleService.GetSaleByIdAsync(sale.Id);
+            if (fullSale == null) { StatusMessage = "Sale not found."; return; }
+            var doc = await _receiptService.BuildReceiptDocumentAsync(fullSale);
+            var win = new Views.ReceiptPreviewWindow(_receiptService, fullSale, doc)
             {
-                Text = receiptText, IsReadOnly = true,
-                FontFamily = new System.Windows.Media.FontFamily("Consolas"), FontSize = 12,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto, TextWrapping = TextWrapping.NoWrap,
-                Margin = new Thickness(10)
+                Owner = Application.Current.MainWindow
             };
-
-            var printButton = new Button { Content = "Print", Margin = new Thickness(10, 0, 10, 10), Height = 36, FontSize = 14, Padding = new Thickness(16, 0, 16, 0) };
-            printButton.Click += (s, e) =>
-            {
-                try
-                {
-                    var dlg = new PrintDialog();
-                    if (dlg.ShowDialog() == true)
-                    {
-                        var flowDoc = new FlowDocument(new Paragraph(new Run(receiptText)));
-                        flowDoc.FontFamily = new System.Windows.Media.FontFamily("Consolas"); flowDoc.FontSize = 12;
-                        dlg.PrintDocument(((IDocumentPaginatorSource)flowDoc).DocumentPaginator, $"Receipt-{sale.InvoiceNumber}");
-                    }
-                }
-                catch (Exception pex) { MessageBox.Show($"Print error: {pex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error); }
-            };
-
-            var stack = new StackPanel();
-            stack.Children.Add(textBox); stack.Children.Add(printButton);
-            var win = new Window { Title = $"Receipt - {sale.InvoiceNumber}", Content = stack, Width = 420, Height = 600, WindowStartupLocation = WindowStartupLocation.CenterOwner, ResizeMode = ResizeMode.CanResize };
             win.ShowDialog();
         }
         catch (Exception ex) { StatusMessage = $"Receipt error: {ex.Message}"; }

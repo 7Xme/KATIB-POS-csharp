@@ -24,14 +24,14 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardTitle]}" Style="{StaticResource PageHeaderStyle}" />
                 <TextBlock Text="{Binding ErrorMessage}" Foreground="#EF4444" Margin="0,-16,0,16" />
                 <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
                     <StackPanel>
                         <!-- Sales Chart -->
                         <Border Style="{StaticResource CardStyle}" Margin="8,0,8,24">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardSalesWeek]}" Style="{StaticResource SectionHeaderStyle}" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardSalesWeek]}" Style="{StaticResource SectionHeaderStyle}" />
                                 <Grid Height="200">
                                     <ItemsControl ItemsSource="{Binding SalesLast7Days}">
                                         <ItemsControl.ItemsPanel>
@@ -58,25 +58,25 @@
                         <UniformGrid Columns="4" Margin="0,0,0,24">
                             <Border Style="{StaticResource KpiCardStyle}" Margin="8">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardTodaySales]}" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardTodaySales]}" Style="{StaticResource KpiLabelStyle}" />
                                     <TextBlock Text="{Binding TodaySales, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" />
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource KpiCardStyle}" Margin="8">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardTransactions]}" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardTransactions]}" Style="{StaticResource KpiLabelStyle}" />
                                     <TextBlock Text="{Binding TodayTransactions}" Style="{StaticResource KpiValueStyle}" />
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource KpiCardStyle}" Margin="8">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardLowStock]}" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardLowStock]}" Style="{StaticResource KpiLabelStyle}" />
                                     <TextBlock Text="{Binding LowStockProducts}" Style="{StaticResource KpiValueStyle}" />
                                 </StackPanel>
                             </Border>
                             <Border Style="{StaticResource KpiCardStyle}" Margin="8">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardActiveLoans]}" Style="{StaticResource KpiLabelStyle}" />
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardActiveLoans]}" Style="{StaticResource KpiLabelStyle}" />
                                     <TextBlock Text="{Binding ActiveLoans}" Style="{StaticResource KpiValueStyle}" />
                                 </StackPanel>
                             </Border>
@@ -84,7 +84,7 @@
                         <!-- Low Stock Alerts -->
                         <Border Style="{StaticResource CardStyle}" Margin="8" Visibility="{Binding HasLowStockItems, Converter={StaticResource BoolToVisibilityConverter}}">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardLowStockAlerts]}" Style="{StaticResource SectionHeaderStyle}" Foreground="#EF4444" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardLowStockAlerts]}" Style="{StaticResource SectionHeaderStyle}" Foreground="#EF4444" />
                                 <ItemsControl ItemsSource="{Binding LowStockProductList}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -108,7 +108,7 @@
 
                         <Border Style="{StaticResource CardStyle}" Margin="8">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[DashboardRecentActivity]}" Style="{StaticResource SectionHeaderStyle}" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[DashboardRecentActivity]}" Style="{StaticResource SectionHeaderStyle}" />
                                 <ItemsControl ItemsSource="{Binding RecentActivities}">
                                     <ItemsControl.ItemTemplate>
                                         <DataTemplate>
@@ -130,12 +130,12 @@
                     <ColumnDefinition Width="400"/>
                 </Grid.ColumnDefinitions>
                 <StackPanel>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosTitle]}" Style="{StaticResource PageHeaderStyle}" />
 
                     <!-- Barcode Scanner Bar (auto-focused on load) -->
                     <Border Style="{StaticResource CardStyle}" Padding="12,8" Margin="0,0,0,12" Background="#F8FAFC">
                         <DockPanel>
-                            <TextBlock DockPanel.Dock="Left" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosBarcode]}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"/>
+                            <TextBlock DockPanel.Dock="Left" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosBarcode]}" FontSize="14" FontWeight="SemiBold" VerticalAlignment="Center" Margin="0,0,12,0"/>
                             <TextBlock DockPanel.Dock="Right" Text="{Binding ScanStatus}" VerticalAlignment="Center" FontSize="12" Foreground="#10B981" Margin="12,0,0,0"/>
                             <TextBox Text="{Binding BarcodeText, UpdateSourceTrigger=PropertyChanged}" FontSize="16" Height="34" Padding="4,0">
                                 <i:Interaction.Behaviors>
@@ -174,7 +174,7 @@
                                             </Border>
                                             <TextBlock Grid.Row="1" Text="{Binding Name}" FontWeight="Medium" FontSize="12" Margin="4,4,4,0" TextWrapping="Wrap" MaxHeight="32" />
                                             <TextBlock Grid.Row="2" Text="{Binding RetailPrice, StringFormat={}{0:N2}}" Foreground="#2563EB" FontSize="16" FontWeight="Bold" Margin="4,2,4,0" />
-                                            <Button Grid.Row="3" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosAdd]}" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="28" Margin="4,6,4,6" FontSize="12"/>
+                                            <Button Grid.Row="3" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosAdd]}" Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=ItemsControl}}" CommandParameter="{Binding}" Style="{StaticResource PrimaryButtonStyle}" Height="28" Margin="4,6,4,6" FontSize="12"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
@@ -184,7 +184,7 @@
                 </StackPanel>
                 <Border Grid.Column="1" Style="{StaticResource CardStyle}" Margin="16,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosCart]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosCart]}" Style="{StaticResource SectionHeaderStyle}" />
                         <ItemsControl ItemsSource="{Binding CartItems}">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
@@ -206,29 +206,29 @@
                         </ItemsControl>
                         <Separator Margin="0,8" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosSubtotal]}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosSubtotal]}" />
                             <TextBlock Text="{Binding Subtotal, StringFormat={}{0:N2}}" Margin="4,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosTax]}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosTax]}" />
                             <TextBlock Text="{Binding TaxAmount, StringFormat={}{0:N2}}" Margin="4,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosDiscount]}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosDiscount]}" />
                             <TextBlock Text="{Binding DiscountAmount, StringFormat={}{0:N2}}" Margin="4,0,0,0" />
                         </StackPanel>
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosTotal]}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosTotal]}" />
                             <TextBlock Text="{Binding TotalAmount, StringFormat={}{0:N2}}" Margin="4,0,0,0" FontSize="24" FontWeight="Bold" Foreground="#2563EB" />
                         </StackPanel>
                         <TextBox Text="{Binding PaidAmount, StringFormat={}{0:N2}, UpdateSourceTrigger=PropertyChanged}" Margin="0,16,0,0" />
                         <StackPanel Orientation="Horizontal">
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosChange]}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosChange]}" />
                             <TextBlock Text="{Binding ChangeAmount, StringFormat={}{0:N2}}" Margin="4,0,0,0" />
                         </StackPanel>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosCompleteSale]}" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosPrintReceipt]}" Command="{Binding PrintReceiptCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,8,0,0" Height="36" Background="#10B981"/>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosClearCart]}" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosCompleteSale]}" Command="{Binding CompleteSaleCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,16,0,0" Height="48" FontSize="16"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosPrintReceipt]}" Command="{Binding PrintReceiptCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,8,0,0" Height="36" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosClearCart]}" Command="{Binding ClearCartCommand}" Style="{StaticResource MaterialDesignFlatButton}" Margin="0,8,0,0"/>
                         <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,8,0,0" TextWrapping="Wrap" FontSize="11"/>
                     </StackPanel>
                 </Border>
@@ -246,39 +246,39 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
 
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsTitle]}" Style="{StaticResource PageHeaderStyle}" Grid.Row="0" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsTitle]}" Style="{StaticResource PageHeaderStyle}" Grid.Row="0" />
                     <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,-20,0,4" Grid.Row="0" />
 
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
                         <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding SelectedCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="180" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsCategories]}" Command="{Binding ManageCategoriesCommand}" Style="{StaticResource ActionButtonStyle}" Margin="12,0,0,0" Background="#8B5CF6" Foreground="White"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsCategories]}" Command="{Binding ManageCategoriesCommand}" Style="{StaticResource ActionButtonStyle}" Margin="12,0,0,0" Background="#8B5CF6" Foreground="White"/>
                     </StackPanel>
 
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Products}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsImage]}" Width="60">
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsImage]}" Width="60">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <Image Source="{Binding ImagePath, Converter={StaticResource ImagePathConverter}}" Width="40" Height="40" Stretch="Uniform" />
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsName]}" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsBarcode]}" Binding="{Binding Barcode}" Width="120" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsPrice]}" Binding="{Binding RetailPrice, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsCost]}" Binding="{Binding CostPrice, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsStock]}" Binding="{Binding StockQuantity}" Width="70" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsMinStock]}" Binding="{Binding MinStockLevel}" Width="60" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsUnit]}" Binding="{Binding Unit}" Width="60" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsActions]}" Width="160">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsName]}" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsBarcode]}" Binding="{Binding Barcode}" Width="120" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsPrice]}" Binding="{Binding RetailPrice, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsCost]}" Binding="{Binding CostPrice, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsStock]}" Binding="{Binding StockQuantity}" Width="70" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsMinStock]}" Binding="{Binding MinStockLevel}" Width="60" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsUnit]}" Binding="{Binding Unit}" Width="60" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsActions]}" Width="160">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteProductCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -286,9 +286,9 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Center">
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonPrevious]}" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonPrevious]}" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
                         <TextBlock Text="{Binding CurrentPage, StringFormat=Page {0}}" VerticalAlignment="Center" Margin="12,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonNext]}" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonNext]}" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
                     </StackPanel>
                 </Grid>
 
@@ -298,55 +298,55 @@
                         <StackPanel MaxWidth="600">
                             <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsName]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsName]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormName}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormNameAr}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsBarcode]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsBarcode]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormBarcode}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsSku]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsSku]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormSku}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsCategory]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsCategory]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <ComboBox ItemsSource="{Binding Categories}" SelectedValue="{Binding FormCategoryId}" DisplayMemberPath="Name" SelectedValuePath="Id" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsCostPrice]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsCostPrice]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormCostPrice}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsRetailPrice]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsRetailPrice]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormRetailPrice}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsWholesalePrice]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsWholesalePrice]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormWholesalePrice}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsStockQty]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsStockQty]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormStockQuantity}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsMinStock]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsMinStock]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormMinStockLevel}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsUnit]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsUnit]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormUnit}" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsDescription]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsDescription]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormDescription}" AcceptsReturn="True" Height="80" TextWrapping="Wrap" />
 
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsImage]}" Margin="0,12,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsImage]}" Margin="0,12,0,2" Foreground="#475569"/>
                             <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
                                 <Border Width="100" Height="100" Background="#F1F5F9" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1" HorizontalAlignment="Left">
                                     <Image Source="{Binding FormImagePreviewPath, Converter={StaticResource ImagePathConverter}}" Width="90" Height="90" Stretch="Uniform" />
                                 </Border>
                                 <StackPanel VerticalAlignment="Center" Margin="16,0,0,0">
-                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsSelectImage]}" Command="{Binding SelectImageCommand}" Style="{StaticResource ActionButtonStyle}" Background="#3B82F6" Foreground="White"/>
+                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsSelectImage]}" Command="{Binding SelectImageCommand}" Style="{StaticResource ActionButtonStyle}" Background="#3B82F6" Foreground="White"/>
                                     <TextBlock Text="{Binding FormImagePath}" Margin="0,4,0,0" Foreground="#64748B" TextWrapping="Wrap" MaxWidth="300" FontSize="11" />
                                 </StackPanel>
                             </StackPanel>
                             <StackPanel Orientation="Horizontal" Margin="0,8,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSave]}" Command="{Binding SaveProductCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSave]}" Command="{Binding SaveProductCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -363,26 +363,26 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,4">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
                     </StackPanel>
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Customers}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelName]}" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsNameAr]}" Binding="{Binding NameAr}" Width="150" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelPhone]}" Binding="{Binding Phone}" Width="120" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelEmail]}" Binding="{Binding Email}" Width="160" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersBalance]}" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersCreditLimit]}" Binding="{Binding CreditLimit, StringFormat={}{0:N2}}" Width="100" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="160">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelName]}" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsNameAr]}" Binding="{Binding NameAr}" Width="150" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelPhone]}" Binding="{Binding Phone}" Width="120" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelEmail]}" Binding="{Binding Email}" Width="160" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersBalance]}" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersCreditLimit]}" Binding="{Binding CreditLimit, StringFormat={}{0:N2}}" Width="100" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="160">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteCustomerCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -396,21 +396,21 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel MaxWidth="600">
                             <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelName]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelName]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormName}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormNameAr}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelPhone]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelPhone]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormPhone}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelEmail]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelEmail]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormEmail}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelAddress]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelAddress]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormAddress}" AcceptsReturn="True" Height="60" TextWrapping="Wrap" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersCreditLimit]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersCreditLimit]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormCreditLimit}" />
                             <StackPanel Orientation="Horizontal" Margin="0,16,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSave]}" Command="{Binding SaveCustomerCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSave]}" Command="{Binding SaveCustomerCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -426,26 +426,26 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SuppliersTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SuppliersTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="250" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SuppliersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SuppliersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
                     </StackPanel>
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Suppliers}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelName]}" Binding="{Binding Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsNameAr]}" Binding="{Binding NameAr}" Width="150" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelPhone]}" Binding="{Binding Phone}" Width="120" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelEmail]}" Binding="{Binding Email}" Width="160" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelAddress]}" Binding="{Binding Address}" Width="200" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CustomersBalance]}" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="160">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelName]}" Binding="{Binding Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsNameAr]}" Binding="{Binding NameAr}" Width="150" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelPhone]}" Binding="{Binding Phone}" Width="120" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelEmail]}" Binding="{Binding Email}" Width="160" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelAddress]}" Binding="{Binding Address}" Width="200" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CustomersBalance]}" Binding="{Binding Balance, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="160">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonDelete]}" Command="{Binding DataContext.DeleteSupplierCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -457,19 +457,19 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel MaxWidth="600">
                             <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelName]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelName]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormName}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsNameAr]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormNameAr}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelPhone]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelPhone]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormPhone}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelEmail]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelEmail]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormEmail}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelAddress]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelAddress]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormAddress}" AcceptsReturn="True" Height="60" TextWrapping="Wrap" />
                             <StackPanel Orientation="Horizontal" Margin="0,16,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSave]}" Command="{Binding SaveSupplierCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSave]}" Command="{Binding SaveSupplierCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -487,62 +487,62 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,10">
                         <DatePicker SelectedDate="{Binding FromDate}" Width="140" />
                         <DatePicker SelectedDate="{Binding ToDate}" Width="140" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesFilter]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesFilter]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
                     </StackPanel>
                     <UniformGrid Columns="5" Margin="0,0,0,16" Grid.Row="2">
                         <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTotalSales]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTotalSales]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
                                 <TextBlock Text="{Binding SummaryTotalSales, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTransactions]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTransactions]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
                                 <TextBlock Text="{Binding SummaryTransactions}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesAvgPerSale]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesAvgPerSale]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
                                 <TextBlock Text="{Binding SummaryAverage, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTotalTax]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTotalTax]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
                                 <TextBlock Text="{Binding SummaryTotalTax, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
                             </StackPanel>
                         </Border>
                         <Border Style="{StaticResource KpiCardStyle}" Margin="4" Padding="12">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTotalDiscounts]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTotalDiscounts]}" Style="{StaticResource KpiLabelStyle}" FontSize="12" />
                                 <TextBlock Text="{Binding SummaryTotalDiscounts, StringFormat={}{0:N2}}" Style="{StaticResource KpiValueStyle}" FontSize="20" />
                             </StackPanel>
                         </Border>
                     </UniformGrid>
                     <DataGrid Grid.Row="3" ItemsSource="{Binding Sales}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesInvoice]}" Binding="{Binding InvoiceNumber}" Width="140" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesCustomer]}" Binding="{Binding Customer.Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTotal]}" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesPayment]}" Binding="{Binding PaymentMethod}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesStatus]}" Binding="{Binding Status}" Width="80" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesDate]}" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="130" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="200">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesInvoice]}" Binding="{Binding InvoiceNumber}" Width="140" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesCustomer]}" Binding="{Binding Customer.Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTotal]}" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesPayment]}" Binding="{Binding PaymentMethod}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesStatus]}" Binding="{Binding Status}" Width="80" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesDate]}" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="130" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="200">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesView]}" Command="{Binding DataContext.ViewSaleDetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesPrint]}" Command="{Binding DataContext.PrintReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesRefund]}" Command="{Binding DataContext.RefundSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesCancel]}" Command="{Binding DataContext.CancelSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesView]}" Command="{Binding DataContext.ViewSaleDetailCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesPrint]}" Command="{Binding DataContext.PrintReceiptCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesRefund]}" Command="{Binding DataContext.RefundSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesCancel]}" Command="{Binding DataContext.CancelSaleCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -566,8 +566,8 @@
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesDetail]}" Style="{StaticResource PageHeaderStyle}" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesBack]}" Command="{Binding CloseDetailCommand}" Style="{StaticResource ActionButtonStyle}" Margin="16,0,0,24"/>
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesDetail]}" Style="{StaticResource PageHeaderStyle}" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesBack]}" Command="{Binding CloseDetailCommand}" Style="{StaticResource ActionButtonStyle}" Margin="16,0,0,24"/>
                     </StackPanel>
                     <Border Grid.Row="1" Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                         <StackPanel>
@@ -577,22 +577,22 @@
                             <TextBlock Text="{Binding SelectedSale.PaymentMethod, StringFormat=Payment: {0}}" />
                         </StackPanel>
                     </Border>
-                    <TextBlock Grid.Row="2" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesItems]}" Style="{StaticResource SectionHeaderStyle}" />
+                    <TextBlock Grid.Row="2" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesItems]}" Style="{StaticResource SectionHeaderStyle}" />
                     <DataGrid Grid.Row="3" ItemsSource="{Binding SaleItems}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelProduct]}" Binding="{Binding Product.Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesQty]}" Binding="{Binding Quantity}" Width="60" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesUnitPrice]}" Binding="{Binding UnitPrice, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelDiscount]}" Binding="{Binding DiscountAmount, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelTotal]}" Binding="{Binding TotalPrice, StringFormat={}{0:N2}}" Width="100" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelProduct]}" Binding="{Binding Product.Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesQty]}" Binding="{Binding Quantity}" Width="60" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesUnitPrice]}" Binding="{Binding UnitPrice, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelDiscount]}" Binding="{Binding DiscountAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelTotal]}" Binding="{Binding TotalPrice, StringFormat={}{0:N2}}" Width="100" />
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Grid.Row="4" Orientation="Horizontal" Margin="0,12,0,0" HorizontalAlignment="Right">
-                        <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesTotal]}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesTotal]}" />
                         <TextBlock VerticalAlignment="Center" FontSize="16" FontWeight="Bold" Margin="0,0,16,0" Text="{Binding SelectedSale.TotalAmount, StringFormat={}{0:N2}}" />
-                        <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SalesPaid]}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SalesPaid]}" />
                         <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" Text="{Binding SelectedSale.PaidAmount, StringFormat={}{0:N2}}" />
-                        <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PosChange]}" />
+                        <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,4,0" Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PosChange]}" />
                         <TextBlock VerticalAlignment="Center" FontSize="14" Margin="0,0,16,0" Text="{Binding SelectedSale.ChangeAmount, StringFormat={}{0:N2}}" />
                     </StackPanel>
                 </Grid>
@@ -609,12 +609,12 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
-                        <RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansCustomerLoans]}" IsChecked="{Binding SelectedLoanType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=CustomerLoan}" Margin="0,0,16,0" GroupName="LoanType"/>
-                        <RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansSupplierLoans]}" IsChecked="{Binding SelectedLoanType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=SupplierLoan}" Margin="0,0,16,0" GroupName="LoanType"/>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Background="#10B981"/>
+                        <RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansCustomerLoans]}" IsChecked="{Binding SelectedLoanType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=CustomerLoan}" Margin="0,0,16,0" GroupName="LoanType"/>
+                        <RadioButton Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansSupplierLoans]}" IsChecked="{Binding SelectedLoanType, Converter={StaticResource EnumToBoolConverter}, ConverterParameter=SupplierLoan}" Margin="0,0,16,0" GroupName="LoanType"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Background="#10B981"/>
                     </StackPanel>
 
                     <!-- Payments Panel -->
@@ -622,12 +622,12 @@
                         <Grid Visibility="{Binding ShowPayments, Converter={StaticResource BoolToVisibilityConverter}, ConverterParameter=Invert}">
                             <DataGrid ItemsSource="{Binding Loans}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansAmount]}" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="100" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansRemaining]}" Binding="{Binding RemainingAmount, StringFormat={}{0:N2}}" Width="100" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansInterest]}" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="70" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansDueDate]}" Binding="{Binding DueDate, StringFormat={}{0:d}}" Width="90" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelStatus]}" Binding="{Binding Status}" Width="80" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansAmount]}" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="100" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansRemaining]}" Binding="{Binding RemainingAmount, StringFormat={}{0:N2}}" Width="100" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansInterest]}" Binding="{Binding InterestRate, StringFormat={}{0:N2}%}" Width="70" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansDueDate]}" Binding="{Binding DueDate, StringFormat={}{0:d}}" Width="90" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelStatus]}" Binding="{Binding Status}" Width="80" />
                                     <DataGridTemplateColumn Header="Customer/Supplier" Width="*">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
@@ -646,14 +646,14 @@
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
                                     </DataGridTemplateColumn>
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelNotes]}" Binding="{Binding Notes}" Width="150" />
-                                    <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="200">
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelNotes]}" Binding="{Binding Notes}" Width="150" />
+                                    <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="200">
                                         <DataGridTemplateColumn.CellTemplate>
                                             <DataTemplate>
                                                 <StackPanel Orientation="Horizontal">
-                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansPayments]}" Command="{Binding DataContext.ShowLoanPaymentsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansMarkPaid]}" Command="{Binding DataContext.MarkAsPaidCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
-                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansDelete]}" Command="{Binding DataContext.DeleteLoanCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansPayments]}" Command="{Binding DataContext.ShowLoanPaymentsCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansMarkPaid]}" Command="{Binding DataContext.MarkAsPaidCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
+                                                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansDelete]}" Command="{Binding DataContext.DeleteLoanCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                                 </StackPanel>
                                             </DataTemplate>
                                         </DataGridTemplateColumn.CellTemplate>
@@ -670,19 +670,19 @@
                                 <RowDefinition Height="Auto"/>
                             </Grid.RowDefinitions>
                             <StackPanel Orientation="Horizontal">
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansPayments]}" Style="{StaticResource PageHeaderStyle}" />
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonBack]}" Command="{Binding ClosePaymentsCommand}" Style="{StaticResource ActionButtonStyle}" Margin="16,0,0,24"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansPayments]}" Style="{StaticResource PageHeaderStyle}" />
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonBack]}" Command="{Binding ClosePaymentsCommand}" Style="{StaticResource ActionButtonStyle}" Margin="16,0,0,24"/>
                             </StackPanel>
                             <DataGrid Grid.Row="1" ItemsSource="{Binding LoanPayments}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansAmount]}" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="120" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelDate]}" Binding="{Binding PaymentDate, StringFormat={}{0:g}}" Width="*" />
-                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelNotes]}" Binding="{Binding Notes}" Width="200" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansAmount]}" Binding="{Binding Amount, StringFormat={}{0:N2}}" Width="120" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelDate]}" Binding="{Binding PaymentDate, StringFormat={}{0:g}}" Width="*" />
+                                    <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelNotes]}" Binding="{Binding Notes}" Width="200" />
                                 </DataGrid.Columns>
                             </DataGrid>
                             <StackPanel Grid.Row="2" Orientation="Horizontal" Margin="0,12,0,0">
                                 <TextBox Text="{Binding PaymentAmount}" Width="150" />
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansAddPayment]}" Command="{Binding AddPaymentCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansAddPayment]}" Command="{Binding AddPaymentCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
                             </StackPanel>
                         </Grid>
                     </Grid>
@@ -693,19 +693,19 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel MaxWidth="600">
                             <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansAmount]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansAmount]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormAmount}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansPaymentAmount]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansPaymentAmount]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormPaidAmount}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansInterest]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansInterest]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormInterestRate}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LoansDueDate]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LoansDueDate]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <DatePicker SelectedDate="{Binding FormDueDate}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelNotes]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelNotes]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormNotes}" AcceptsReturn="True" Height="60" TextWrapping="Wrap" />
                             <StackPanel Orientation="Horizontal" Margin="0,16,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSave]}" Command="{Binding SaveLoanCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSave]}" Command="{Binding SaveLoanCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -722,33 +722,33 @@
                         <RowDefinition Height="*"/>
                         <RowDefinition Height="Auto"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
                         <TextBox Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" Width="200" />
                         <ComboBox ItemsSource="{Binding Suppliers}" SelectedValue="{Binding FilterSupplierId}" DisplayMemberPath="Name" SelectedValuePath="Id" Width="180" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesNew]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSearch]}" Command="{Binding SearchCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" />
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesNew]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="12,0,0,0" Background="#10B981"/>
                     </StackPanel>
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Purchases}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesPO]}" Binding="{Binding PurchaseOrderNumber}" Width="140" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesSupplier]}" Binding="{Binding Supplier.Name}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesItems]}" Binding="{Binding PurchaseItems.Count}" Width="60" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelTotal]}" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesReceived]}" Width="80">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesPO]}" Binding="{Binding PurchaseOrderNumber}" Width="140" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesSupplier]}" Binding="{Binding Supplier.Name}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesItems]}" Binding="{Binding PurchaseItems.Count}" Width="60" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelTotal]}" Binding="{Binding TotalAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelPaid]}" Binding="{Binding PaidAmount, StringFormat={}{0:N2}}" Width="90" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesReceived]}" Width="80">
                                 <DataGridTextColumn.Binding>
                                     <Binding Path="IsReceived" StringFormat="{}{0}" />
                                 </DataGridTextColumn.Binding>
                             </DataGridTextColumn>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelDate]}" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="130" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="200">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelDate]}" Binding="{Binding CreatedAt, StringFormat={}{0:g}}" Width="130" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="200">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesReceive]}" Command="{Binding DataContext.ReceivePurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesCancel]}" Command="{Binding DataContext.CancelPurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesReceive]}" Command="{Binding DataContext.ReceivePurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#10B981" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesCancel]}" Command="{Binding DataContext.CancelPurchaseCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -756,12 +756,12 @@
                         </DataGrid.Columns>
                     </DataGrid>
                     <StackPanel Orientation="Horizontal" Grid.Row="3" Margin="0,12,0,0" HorizontalAlignment="Center">
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonPrevious]}" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonPrevious]}" Command="{Binding PreviousPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
                         <TextBlock VerticalAlignment="Center" Margin="12,0">
-                        <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[ProductsPage]}"/>
+                        <Run Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[ProductsPage]}"/>
                         <Run Text="{Binding CurrentPage}"/>
                     </TextBlock>
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonNext]}" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonNext]}" Command="{Binding NextPageCommand}" Style="{StaticResource ActionButtonStyle}" Margin="4"/>
                     </StackPanel>
                 </Grid>
                 <!-- Create PO Form -->
@@ -775,19 +775,19 @@
                         <StackPanel MaxWidth="700">
                             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                                 <StackPanel>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesSupplier]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesSupplier]}" Margin="0,0,0,2" Foreground="#475569"/>
                                     <ComboBox ItemsSource="{Binding Suppliers}" SelectedValue="{Binding FormSupplierId}" DisplayMemberPath="Name" SelectedValuePath="Id" Margin="0,0,0,12"/>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesNotes]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesNotes]}" Margin="0,0,0,2" Foreground="#475569"/>
                                     <TextBox Text="{Binding FormNotes}" AcceptsReturn="True" Height="60" TextWrapping="Wrap" Margin="0,0,0,12"/>
-                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesTax]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesTax]}" Margin="0,0,0,2" Foreground="#475569"/>
                                     <TextBox Text="{Binding FormTaxAmount}" Margin="0,0,0,12"/>
                                 </StackPanel>
                             </Border>
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesItems]}" Style="{StaticResource SectionHeaderStyle}" />
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesItems]}" Style="{StaticResource SectionHeaderStyle}" />
                             <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                                 <StackPanel>
                                     <DockPanel Margin="0,0,0,12">
-                                        <Button DockPanel.Dock="Right" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesAdd]}" Command="{Binding SearchProductsForPoCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
+                                        <Button DockPanel.Dock="Right" Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesAdd]}" Command="{Binding SearchProductsForPoCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="8,0,0,0"/>
                                         <TextBox Text="{Binding ProductSearchText, UpdateSourceTrigger=PropertyChanged}" />
                                     </DockPanel>
                                     <ItemsControl ItemsSource="{Binding SearchProducts}" Margin="0,0,0,12">
@@ -810,10 +810,10 @@
                                     </ItemsControl>
                                     <DataGrid ItemsSource="{Binding FormItems}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" Margin="0,0,0,12">
                                         <DataGrid.Columns>
-                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesProduct]}" Binding="{Binding ProductName}" Width="*" />
-                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesQty]}" Binding="{Binding Quantity}" Width="70" />
-                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesUnitCost]}" Binding="{Binding UnitCost, StringFormat={}{0:N2}}" Width="90" />
-                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelTotal]}" Binding="{Binding LineTotal, StringFormat={}{0:N2}}" Width="100" />
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesProduct]}" Binding="{Binding ProductName}" Width="*" />
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesQty]}" Binding="{Binding Quantity}" Width="70" />
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesUnitCost]}" Binding="{Binding UnitCost, StringFormat={}{0:N2}}" Width="90" />
+                                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelTotal]}" Binding="{Binding LineTotal, StringFormat={}{0:N2}}" Width="100" />
                                             <DataGridTemplateColumn Header="" Width="50">
                                                 <DataGridTemplateColumn.CellTemplate>
                                                     <DataTemplate>
@@ -827,8 +827,8 @@
                                 </StackPanel>
                             </Border>
                             <StackPanel Orientation="Horizontal" Margin="0,8,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[PurchasesSave]}" Command="{Binding SavePurchaseCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="180" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[PurchasesSave]}" Command="{Binding SavePurchaseCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="180" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -844,25 +844,25 @@
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
-                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                    <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersTitle]}" Style="{StaticResource PageHeaderStyle}" />
                     <TextBlock Text="{Binding StatusMessage}" Foreground="#475569" Margin="0,0,0,8" Grid.Row="0" />
                     <StackPanel Orientation="Horizontal" Grid.Row="1" Margin="0,0,0,16">
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Background="#10B981"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersAdd]}" Command="{Binding ShowAddFormCommand}" Style="{StaticResource PrimaryButtonStyle}" Background="#10B981"/>
                     </StackPanel>
                     <DataGrid Grid.Row="2" ItemsSource="{Binding Users}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True">
                         <DataGrid.Columns>
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersUsername]}" Binding="{Binding Username}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersDisplayName]}" Binding="{Binding DisplayName}" Width="*" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersRole]}" Binding="{Binding Role}" Width="100" />
-                            <DataGridCheckBoxColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersActive]}" Binding="{Binding IsActive}" Width="70" />
-                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersLastLogin]}" Binding="{Binding LastLogin, StringFormat={}{0:g}}" Width="140" />
-                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[LabelActions]}" Width="220">
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersUsername]}" Binding="{Binding Username}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersDisplayName]}" Binding="{Binding DisplayName}" Width="*" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersRole]}" Binding="{Binding Role}" Width="100" />
+                            <DataGridCheckBoxColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersActive]}" Binding="{Binding IsActive}" Width="70" />
+                            <DataGridTextColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersLastLogin]}" Binding="{Binding LastLogin, StringFormat={}{0:g}}" Width="140" />
+                            <DataGridTemplateColumn Header="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[LabelActions]}" Width="220">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
                                         <StackPanel Orientation="Horizontal">
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersToggleActive]}" Command="{Binding DataContext.ToggleActiveCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
-                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersDelete]}" Command="{Binding DataContext.DeleteUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersEdit]}" Command="{Binding DataContext.ShowEditFormCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#3B82F6" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersToggleActive]}" Command="{Binding DataContext.ToggleActiveCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#F59E0B" Foreground="White" FontSize="11" Height="26"/>
+                                            <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersDelete]}" Command="{Binding DataContext.DeleteUserCommand, RelativeSource={RelativeSource AncestorType=DataGrid}}" CommandParameter="{Binding}" Style="{StaticResource ActionButtonStyle}" Margin="2" Background="#EF4444" Foreground="White" FontSize="11" Height="26"/>
                                         </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
@@ -876,17 +876,17 @@
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <StackPanel MaxWidth="500">
                             <TextBlock Text="{Binding FormTitle}" Style="{StaticResource PageHeaderStyle}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersUsername]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersUsername]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormUsername}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersDisplayName]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersDisplayName]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormDisplayName}" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersRole]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersRole]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <ComboBox ItemsSource="{Binding UserRoles}" SelectedItem="{Binding FormRole}" Margin="0,0,0,12" />
-                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[UsersPasswordHint]}" Margin="0,8,0,2" Foreground="#475569"/>
+                            <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[UsersPasswordHint]}" Margin="0,8,0,2" Foreground="#475569"/>
                             <TextBox Text="{Binding FormPassword}" />
                             <StackPanel Orientation="Horizontal" Margin="0,16,0,24">
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonSave]}" Command="{Binding SaveUserCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonSave]}" Command="{Binding SaveUserCommand}" Style="{StaticResource PrimaryButtonStyle}" Width="120" Height="40"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[CommonCancel]}" Command="{Binding CancelFormCommand}" Style="{StaticResource ActionButtonStyle}" Width="120" Height="40" Margin="12,0,0,0"/>
                             </StackPanel>
                         </StackPanel>
                     </ScrollViewer>
@@ -898,68 +898,68 @@
             <Grid Margin="24">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
                     <StackPanel MaxWidth="600">
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsTitle]}" Style="{StaticResource PageHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsTitle]}" Style="{StaticResource PageHeaderStyle}" />
 
                         <!-- Company Information -->
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsCompanyInfo]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsCompanyInfo]}" Style="{StaticResource SectionHeaderStyle}" />
                         <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsCompanyName]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsCompanyName]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding CompanyName}" Margin="0,0,0,12" />
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsCompanyNameAr]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsCompanyNameAr]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding CompanyNameAr}" Margin="0,0,0,12" />
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsAddress]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsAddress]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding CompanyAddress}" Margin="0,0,0,12" />
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsPhone]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsPhone]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding CompanyPhone}" Margin="0,0,0,12" />
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsCurrency]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsCurrency]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding Currency}" />
                             </StackPanel>
                         </Border>
 
                         <!-- Tax Settings -->
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsTaxSettings]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsTaxSettings]}" Style="{StaticResource SectionHeaderStyle}" />
                         <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsTaxRate]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsTaxRate]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding TaxRate}" />
                             </StackPanel>
                         </Border>
 
                         <!-- Localization & Appearance -->
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsLocalization]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsLocalization]}" Style="{StaticResource SectionHeaderStyle}" />
                         <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsLanguage]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsLanguage]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <ComboBox ItemsSource="{Binding Languages}" SelectedItem="{Binding Language}" Margin="0,0,0,12" />
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsTheme]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsTheme]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <ComboBox ItemsSource="{Binding Themes}" SelectedItem="{Binding Theme}" Margin="0,0,0,12" />
                             </StackPanel>
                         </Border>
 
                         <!-- Receipt Customization -->
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsReceipt]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsReceipt]}" Style="{StaticResource SectionHeaderStyle}" />
                         <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                             <StackPanel>
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsReceiptHeader]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsReceiptHeader]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding ReceiptHeader}" Margin="0,0,0,12" />
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsReceiptFooter]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsReceiptFooter]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding ReceiptFooter}" Margin="0,0,0,12" AcceptsReturn="True" Height="50" TextWrapping="Wrap" />
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsPaperFormat]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsPaperFormat]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <ComboBox ItemsSource="{Binding PaperFormats}" SelectedItem="{Binding PaperFormat}" Margin="0,0,0,12" />
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsTextColor]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsTextColor]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <TextBox Text="{Binding ReceiptTextColor}" Margin="0,0,0,12" />
 
-                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsLogo]}" Margin="0,0,0,2" Foreground="#475569"/>
+                                <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsLogo]}" Margin="0,0,0,2" Foreground="#475569"/>
                                 <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                                     <Border Width="80" Height="80" Background="#F1F5F9" CornerRadius="8" BorderBrush="#E2E8F0" BorderThickness="1">
                                         <Image Source="{Binding LogoPreviewPath, Converter={StaticResource ImagePathConverter}}" Width="72" Height="72" Stretch="Uniform" />
                                     </Border>
                                     <StackPanel VerticalAlignment="Center" Margin="12,0,0,0">
-                                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsSelectLogo]}" Command="{Binding SelectLogoCommand}" Style="{StaticResource ActionButtonStyle}" Background="#3B82F6" Foreground="White"/>
+                                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsSelectLogo]}" Command="{Binding SelectLogoCommand}" Style="{StaticResource ActionButtonStyle}" Background="#3B82F6" Foreground="White"/>
                                         <TextBlock Text="{Binding LogoPath}" Margin="0,4,0,0" Foreground="#64748B" TextWrapping="Wrap" MaxWidth="250" FontSize="11" />
                                     </StackPanel>
                                 </StackPanel>
@@ -967,15 +967,15 @@
                         </Border>
 
                         <!-- Database -->
-                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsDatabase]}" Style="{StaticResource SectionHeaderStyle}" />
+                        <TextBlock Text="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsDatabase]}" Style="{StaticResource SectionHeaderStyle}" />
                         <Border Style="{StaticResource CardStyle}" Margin="0,0,0,16">
                             <StackPanel>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsBackup]}" Command="{Binding BackupDatabaseCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,0,8" Background="#10B981"/>
-                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsRestore]}" Command="{Binding RestoreDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,0,8" Background="#F59E0B" Foreground="White"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsBackup]}" Command="{Binding BackupDatabaseCommand}" Style="{StaticResource PrimaryButtonStyle}" Margin="0,0,0,8" Background="#10B981"/>
+                                <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsRestore]}" Command="{Binding RestoreDatabaseCommand}" Style="{StaticResource ActionButtonStyle}" Margin="0,0,0,8" Background="#F59E0B" Foreground="White"/>
                             </StackPanel>
                         </Border>
 
-                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[SettingsSaveAll]}" Command="{Binding SaveSettingsCommand}" Style="{StaticResource PrimaryButtonStyle}" Height="44" FontSize="16"/>
+                        <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[SettingsSaveAll]}" Command="{Binding SaveSettingsCommand}" Style="{StaticResource PrimaryButtonStyle}" Height="44" FontSize="16"/>
                         <TextBlock Text="{Binding StatusMessage}" Foreground="#10B981" Margin="0,12,0,24" FontWeight="Medium" />
                     </StackPanel>
                 </ScrollViewer>
@@ -988,18 +988,18 @@
             <DockPanel>
                 <TextBlock Text="Ketaba POS" FontSize="22" FontWeight="Bold" VerticalAlignment="Center" Foreground="White" />
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavDashboard]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavPos]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavProducts]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Products" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavCustomers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSuppliers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSales]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavPurchases]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavLoans]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavUsers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Users" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavSettings]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavDashboard]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Dashboard" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavPos]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Pos" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavProducts]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Products" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavCustomers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Customers" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavSuppliers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Suppliers" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavSales]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Sales" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavPurchases]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Purchases" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavLoans]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Loans" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavUsers]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Users" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavSettings]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding NavigateCommand}" CommandParameter="Settings" />
                     <Separator Margin="8,0" Background="White" Opacity="0.5" Width="1" Height="20" />
-                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Path=[NavLogout]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />
+                    <Button Content="{Binding Source={x:Static services:TranslationSource.Instance}, Mode=OneWay, Path=[NavLogout]}" Margin="4,0" Foreground="White" Background="Transparent" BorderThickness="0" Cursor="Hand" Command="{Binding LogoutCommand}" />
                 </StackPanel>
             </DockPanel>
         </Border>

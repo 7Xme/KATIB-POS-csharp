@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "J1mrHT1UIzg=",
+  "dgSpecHash": "piE/pfx+uB8=",
   "success": true,
   "projectFilePath": "D:\\githubprojects\\MKTABA TOOLS ALL IN ONE\\KATIB POS csharp\\KetabaPOS.Desktop\\KetabaPOS.Desktop.csproj",
   "expectedPackageFiles": [
@@ -58,6 +58,7 @@
     "C:\\Users\\Jaklin\\.nuget\\packages\\microsoft.extensions.primitives\\9.0.0\\microsoft.extensions.primitives.9.0.0.nupkg.sha512",
     "C:\\Users\\Jaklin\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.135\\microsoft.xaml.behaviors.wpf.1.1.135.nupkg.sha512",
     "C:\\Users\\Jaklin\\.nuget\\packages\\mono.texttemplating\\3.0.0\\mono.texttemplating.3.0.0.nupkg.sha512",
+    "C:\\Users\\Jaklin\\.nuget\\packages\\questpdf\\2026.7.1\\questpdf.2026.7.1.nupkg.sha512",
     "C:\\Users\\Jaklin\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.10\\sqlitepclraw.bundle_e_sqlite3.2.1.10.nupkg.sha512",
     "C:\\Users\\Jaklin\\.nuget\\packages\\sqlitepclraw.core\\2.1.10\\sqlitepclraw.core.2.1.10.nupkg.sha512",
     "C:\\Users\\Jaklin\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.10\\sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",

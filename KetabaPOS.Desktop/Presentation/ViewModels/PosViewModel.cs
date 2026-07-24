@@ -27,6 +27,7 @@ public partial class PosViewModel : ObservableObject
 {
     private readonly IProductService _productService;
     private readonly ISaleService _saleService;
+    private readonly IReceiptService _receiptService;
     private readonly IAuthService _authService;
     private readonly ISettingsService _settingsService;
     private decimal _taxRate = 0.15m;
@@ -53,10 +54,11 @@ public partial class PosViewModel : ObservableObject
     [ObservableProperty] private ObservableCollection<Customer> _customers = new();
     [ObservableProperty] private bool _showReceiptButton;
 
-    public PosViewModel(IProductService productService, ISaleService saleService, IAuthService authService, ISettingsService settingsService)
+    public PosViewModel(IProductService productService, ISaleService saleService, IReceiptService receiptService, IAuthService authService, ISettingsService settingsService)
     {
         _productService = productService;
         _saleService = saleService;
+        _receiptService = receiptService;
         _authService = authService;
         _settingsService = settingsService;
         _ = LoadTaxRateAsync();
@@ -219,62 +221,14 @@ public partial class PosViewModel : ObservableObject
         IsLoading = true;
         try
         {
-            var receiptBytes = await _saleService.GenerateReceiptAsync(_lastSaleId);
-            var receiptText = System.Text.Encoding.UTF8.GetString(receiptBytes);
-
-            var textBox = new TextBox
+            var fullSale = await _receiptService.GetSaleWithDetailsAsync(_lastSaleId);
+            if (fullSale == null) { StatusMessage = "Sale not found."; return; }
+            var doc = await _receiptService.BuildReceiptDocumentAsync(fullSale);
+            var win = new Views.ReceiptPreviewWindow(_receiptService, fullSale, doc)
             {
-                Text = receiptText,
-                IsReadOnly = true,
-                FontFamily = new System.Windows.Media.FontFamily("Consolas"),
-                FontSize = 12,
-                VerticalScrollBarVisibility = ScrollBarVisibility.Auto,
-                TextWrapping = TextWrapping.NoWrap,
-                Margin = new Thickness(10)
+                Owner = Application.Current.MainWindow
             };
-
-            var printButton = new Button
-            {
-                Content = "Print",
-                Margin = new Thickness(10, 0, 10, 10),
-                Height = 36,
-                FontSize = 14,
-                Padding = new Thickness(16, 0, 16, 0)
-            };
-
-            printButton.Click += (s, e) =>
-            {
-                try
-                {
-                    var dlg = new PrintDialog();
-                    if (dlg.ShowDialog() == true)
-                    {
-                        var flowDoc = new FlowDocument(new Paragraph(new Run(receiptText)));
-                        flowDoc.FontFamily = new System.Windows.Media.FontFamily("Consolas");
-                        flowDoc.FontSize = 12;
-                        dlg.PrintDocument(((IDocumentPaginatorSource)flowDoc).DocumentPaginator, "Receipt");
-                    }
-                }
-                catch (Exception pex)
-                {
-                    MessageBox.Show($"Print error: {pex.Message}", "Print Error", MessageBoxButton.OK, MessageBoxImage.Error);
-                }
-            };
-
-            var stack = new StackPanel();
-            stack.Children.Add(textBox);
-            stack.Children.Add(printButton);
-
-            var window = new Window
-            {
-                Title = "Receipt",
-                Content = stack,
-                Width = 420,
-                Height = 600,
-                WindowStartupLocation = WindowStartupLocation.CenterOwner,
-                ResizeMode = ResizeMode.CanResize
-            };
-            window.ShowDialog();
+            win.ShowDialog();
         }
         catch (Exception ex) { StatusMessage = $"Receipt error: {ex.Message}"; }
         finally { IsLoading = false; }

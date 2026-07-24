@@ -7,7 +7,6 @@ public interface ISaleService
     Task<Sale?> GetSaleByIdAsync(int id);
     Task<bool> CancelSaleAsync(int id);
     Task<bool> RefundSaleAsync(int saleId, string? reason = null);
-    Task<byte[]> GenerateReceiptAsync(int saleId);
     Task<SalesSummary> GetSalesSummaryAsync(DateTime? from = null, DateTime? to = null);
 }
 public class SalesSummary

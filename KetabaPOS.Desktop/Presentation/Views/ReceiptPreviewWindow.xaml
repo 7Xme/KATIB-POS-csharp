@@ -1,0 +1,46 @@
+<Window x:Class="KetabaPOS.Desktop.Presentation.Views.ReceiptPreviewWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Receipt Preview" Height="750" Width="900"
+        WindowStartupLocation="CenterOwner" ResizeMode="CanResize"
+        Background="#F8FAFC">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <Border Background="White" Padding="16,12" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+                <TextBlock x:Name="TitleText" Text="Receipt / Invoice"
+                           FontSize="20" FontWeight="SemiBold" VerticalAlignment="Center"
+                           Foreground="#1E293B"/>
+                <StackPanel Grid.Column="1" Orientation="Horizontal">
+                    <Button x:Name="SavePdfBtn" Content="Save as PDF" Click="SavePdf_Click"
+                            Height="34" Padding="16,0" Margin="0,0,8,0"
+                            Background="#2563EB" Foreground="White" BorderThickness="0"
+                            FontWeight="Medium" Cursor="Hand"/>
+                    <Button x:Name="PrintBtn" Content="Print" Click="Print_Click"
+                            Height="34" Padding="16,0"
+                            Background="#10B981" Foreground="White" BorderThickness="0"
+                            FontWeight="Medium" Cursor="Hand"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <DocumentViewer x:Name="DocViewer" Grid.Row="1"
+                        Background="White"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Top"
+                        Margin="0,0,0,0"/>
+
+        <Border Grid.Row="2" Background="White" Padding="12,8" BorderBrush="#E2E8F0" BorderThickness="0,1,0,0">
+            <TextBlock x:Name="StatusText" Text="Ready" FontSize="12" Foreground="#64748B"/>
+        </Border>
+    </Grid>
+</Window>

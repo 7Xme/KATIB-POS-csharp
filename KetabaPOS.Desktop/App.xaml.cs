@@ -74,6 +74,7 @@ public partial class App : Application
             services.AddSingleton<IDashboardService, DashboardService>();
             services.AddSingleton<ISettingsService, SettingsService>();
             services.AddSingleton<IPurchaseService, PurchaseService>();
+            services.AddSingleton<IReceiptService, ReceiptService>();
 
             services.AddTransient<MainViewModel>();
             services.AddTransient<LoginViewModel>();
