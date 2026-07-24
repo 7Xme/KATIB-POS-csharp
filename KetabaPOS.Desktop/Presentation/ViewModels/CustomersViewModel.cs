@@ -1,24 +1,23 @@
 using System.Collections.ObjectModel;
+using System.Windows;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using KetabaPOS.Desktop.Core.Models;
 using KetabaPOS.Desktop.Infrastructure.Data;
 using Microsoft.EntityFrameworkCore;
-using System.Windows;
 
 namespace KetabaPOS.Desktop.Presentation.ViewModels;
 
 public partial class CustomersViewModel : ObservableObject
 {
     private readonly AppDbContext _context;
-
     [ObservableProperty] private ObservableCollection<Customer> _customers = new();
     [ObservableProperty] private string _searchText = string.Empty;
     [ObservableProperty] private bool _isLoading;
+    [ObservableProperty] private string _statusMessage = string.Empty;
     [ObservableProperty] private bool _showForm;
     [ObservableProperty] private bool _isEditing;
     [ObservableProperty] private string _formTitle = "Add Customer";
-
     [ObservableProperty] private int _formId;
     [ObservableProperty] private string _formName = string.Empty;
     [ObservableProperty] private string _formNameAr = string.Empty;
@@ -33,6 +32,7 @@ public partial class CustomersViewModel : ObservableObject
     private async Task LoadCustomersAsync()
     {
         IsLoading = true;
+        StatusMessage = string.Empty;
         try
         {
             var q = _context.Customers.AsQueryable();
@@ -40,27 +40,20 @@ public partial class CustomersViewModel : ObservableObject
                 q = q.Where(c => c.Name.Contains(SearchText) || (c.Phone != null && c.Phone.Contains(SearchText)));
             Customers = new ObservableCollection<Customer>(await q.OrderBy(c => c.Name).ToListAsync());
         }
+        catch (Exception ex) { StatusMessage = $"Error: {ex.Message}"; }
         finally { IsLoading = false; }
     }
 
     [RelayCommand]
-    private async Task SearchAsync()
-    {
-        await LoadCustomersAsync();
-    }
+    private async Task SearchAsync() => await LoadCustomersAsync();
 
     [RelayCommand]
-    private void ShowAddForm()
-    {
-        ResetForm();
-        ShowForm = true;
-        IsEditing = false;
-        FormTitle = "Add Customer";
-    }
+    private void ShowAddForm() { ResetForm(); ShowForm = true; IsEditing = false; FormTitle = "Add Customer"; }
 
     [RelayCommand]
     private void ShowEditForm(Customer customer)
     {
+        if (customer == null) return;
         FormId = customer.Id;
         FormName = customer.Name;
         FormNameAr = customer.NameAr;
@@ -68,81 +61,66 @@ public partial class CustomersViewModel : ObservableObject
         FormEmail = customer.Email ?? string.Empty;
         FormAddress = customer.Address ?? string.Empty;
         FormCreditLimit = customer.CreditLimit;
-        ShowForm = true;
-        IsEditing = true;
-        FormTitle = "Edit Customer";
+        ShowForm = true; IsEditing = true; FormTitle = "Edit Customer";
     }
 
     [RelayCommand]
-    private void CancelForm()
-    {
-        ShowForm = false;
-        ResetForm();
-    }
+    private void CancelForm() { ShowForm = false; ResetForm(); }
 
     [RelayCommand]
     private async Task SaveCustomerAsync()
     {
         if (string.IsNullOrWhiteSpace(FormName))
         {
-            MessageBox.Show("Customer name is required.", "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show("Customer name is required.", "Validation", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
-
-        if (IsEditing)
+        IsLoading = true;
+        try
         {
-            var c = await _context.Customers.FindAsync(FormId);
-            if (c == null) return;
-            c.Name = FormName;
-            c.NameAr = FormNameAr;
-            c.Phone = FormPhone;
-            c.Email = FormEmail;
-            c.Address = FormAddress;
-            c.CreditLimit = FormCreditLimit;
-            c.UpdatedAt = DateTime.UtcNow;
-        }
-        else
-        {
-            var c = new Customer
+            if (IsEditing)
             {
-                Name = FormName,
-                NameAr = FormNameAr,
-                Phone = FormPhone,
-                Email = FormEmail,
-                Address = FormAddress,
-                CreditLimit = FormCreditLimit
-            };
-            _context.Customers.Add(c);
+                var c = await _context.Customers.FindAsync(FormId);
+                if (c == null) { StatusMessage = "Customer not found."; return; }
+                c.Name = FormName; c.NameAr = FormNameAr; c.Phone = FormPhone; c.Email = FormEmail;
+                c.Address = FormAddress; c.CreditLimit = FormCreditLimit; c.UpdatedAt = DateTime.UtcNow;
+            }
+            else
+            {
+                _context.Customers.Add(new Customer
+                {
+                    Name = FormName, NameAr = FormNameAr, Phone = FormPhone, Email = FormEmail,
+                    Address = FormAddress, CreditLimit = FormCreditLimit
+                });
+            }
+            await _context.SaveChangesAsync();
+            ShowForm = false; ResetForm(); StatusMessage = "Customer saved.";
+            await LoadCustomersAsync();
         }
-
-        await _context.SaveChangesAsync();
-        ShowForm = false;
-        ResetForm();
-        await LoadCustomersAsync();
+        catch (Exception ex) { StatusMessage = $"Save failed: {ex.Message}"; }
+        finally { IsLoading = false; }
     }
 
     [RelayCommand]
     private async Task DeleteCustomerAsync(Customer customer)
     {
-        var result = MessageBox.Show($"Delete customer \"{customer.Name}\"?", "Confirm Delete",
-            MessageBoxButton.YesNo, MessageBoxImage.Question);
-        if (result == MessageBoxResult.Yes)
+        if (customer == null) return;
+        if (MessageBox.Show($"Delete \"{customer.Name}\"?", "Confirm", MessageBoxButton.YesNo, MessageBoxImage.Question) != MessageBoxResult.Yes) return;
+        IsLoading = true;
+        try
         {
-            customer.IsDeleted = true;
-            customer.UpdatedAt = DateTime.UtcNow;
+            customer.IsDeleted = true; customer.UpdatedAt = DateTime.UtcNow;
             await _context.SaveChangesAsync();
+            StatusMessage = "Customer deleted.";
             await LoadCustomersAsync();
         }
+        catch (Exception ex) { StatusMessage = $"Delete failed: {ex.Message}"; }
+        finally { IsLoading = false; }
     }
 
     private void ResetForm()
     {
-        FormId = 0;
-        FormName = string.Empty;
-        FormNameAr = string.Empty;
-        FormPhone = string.Empty;
-        FormEmail = string.Empty;
-        FormAddress = string.Empty;
-        FormCreditLimit = 0;
+        FormId = 0; FormName = string.Empty; FormNameAr = string.Empty; FormPhone = string.Empty;
+        FormEmail = string.Empty; FormAddress = string.Empty; FormCreditLimit = 0;
     }
 }
