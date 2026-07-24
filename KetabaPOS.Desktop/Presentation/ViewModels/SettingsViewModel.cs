@@ -129,11 +129,15 @@ public partial class SettingsViewModel : ObservableObject
 
     private void ApplyThemeAndLanguage()
     {
-        var isDark = Theme == "Dark";
-        var paletteHelper = new PaletteHelper();
-        var theme = paletteHelper.GetTheme();
-        theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
-        paletteHelper.SetTheme(theme);
+        try
+        {
+            var isDark = Theme == "Dark";
+            var paletteHelper = new PaletteHelper();
+            var theme = paletteHelper.GetTheme();
+            theme.SetBaseTheme(isDark ? BaseTheme.Dark : BaseTheme.Light);
+            paletteHelper.SetTheme(theme);
+        }
+        catch { /* theme API may not be available in all environments */ }
 
         if (Application.Current.MainWindow is Window main)
         {
